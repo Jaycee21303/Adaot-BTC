@@ -1,14 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="bg-[#0D1117] text-white">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AdaptBTC</title>
-  <link rel="stylesheet" href="assets/css/global.css">
-  <script src="assets/js/main.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AdaptBTC – Why Bitcoin Matters</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h1>AdaptBTC</h1>
-  <p>Your site is live. Replace this block anytime.</p>
+
+<body class="font-inter">
+
+<!-- NAVBAR -->
+<header class="w-full bg-[#0D1117]/80 backdrop-blur border-b border-white/10">
+  <nav class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
+    <div class="flex items-center gap-3">
+      <img src="assets/img/logo.png" class="h-10 w-auto" alt="AdaptBTC Logo">
+      <span class="text-xl font-bold tracking-wide">AdaptBTC</span>
+    </div>
+
+    <div class="hidden md:flex gap-8 text-gray-300">
+      <a href="index.html" class="hover:text-white">Home</a>
+      <a href="beginner.html" class="hover:text-white">Beginner Guide</a>
+      <a href="consulting.html" class="hover:text-white">Consulting</a>
+      <a href="our-mission.html" class="hover:text-white">Our Mission</a>
+      <a href="get-involved.html" class="hover:text-white">Get Involved</a>
+      <a href="donate.html" class="hover:text-white">Donate</a>
+    </div>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="max-w-6xl mx-auto px-6 pt-20 pb-12">
+  <h1 class="text-4xl md:text-6xl font-bold leading-tight">
+    Why Bitcoin Matters<br>— and Why the World Is Adapting
+  </h1>
+
+  <p class="mt-6 text-lg text-gray-300 max-w-2xl">
+    Bitcoin is the first digitally scarce, globally accessible, inflation-resistant money.
+    This page explains why it exists, why it matters, and how it protects everyday people
+    and small businesses.
+  </p>
+
+  <div class="mt-8 flex gap-4">
+    <a href="beginner.html" class="px-6 py-3 bg-blue-600 rounded-lg font-semibold hover:bg-blue-700">
+      Start Learning
+    </a>
+    <a href="consulting.html" class="px-6 py-3 border border-gray-600 rounded-lg font-semibold hover:bg-gray-800">
+      Work With Us →
+    </a>
+  </div>
+</section>
+
+<!-- WHY BITCOIN MATTERS -->
+<section class="max-w-6xl mx-auto px-6 py-16">
+  <h2 class="text-3xl font-bold mb-10 text-blue-400">Why Bitcoin Matters</h2>
+
+  <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+    <div>
+      <h3 class="text-xl font-semibold mb-2">Inflation Protection</h3>
+      <p class="text-gray-400">
+        Bitcoin’s supply is capped at 21 million, unlike fiat currencies which lose value every year.
+      </p>
+    </div>
+    <div>
+      <h3 class="text-xl font-semibold mb-2">True Ownership</h3>
+      <p class="text-gray-400">
+        You control your money directly. No bank can freeze or reverse your transactions.
+      </p>
+    </div>
+    <div>
+      <h3 class="text-xl font-semibold mb-2">Borderless Money</h3>
+      <p class="text-gray-400">
+        Send value across the world in minutes — without intermediaries or permission.
+      </p>
+    </div>
+    <div>
+      <h3 class="text-xl font-semibold mb-2">Most Secure Network</h3>
+      <p class="text-gray-400">
+        Bitcoin is protected by the largest decentralized computing network ever created.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- INFLATION SECTION -->
+<section class="max-w-5xl mx-auto px-6 py-16">
+  <h2 class="text-3xl font-bold text-blue-400 mb-6">U.S. Inflation — November 2025</h2>
+
+  <div class="bg-white/5 border border-white/10 p-6 rounded-xl">
+    <p class="text-xl font-semibold mb-3">
+      📊 Latest CPI Year-Over-Year: <span class="text-green-400">2.6%</span>
+    </p>
+    <p class="text-gray-300">
+      While inflation has decreased from the 2021–2022 highs, purchasing power continues to erode.
+      Bitcoin offers an alternative monetary system with fixed supply and predictable issuance.
+    </p>
+  </div>
+</section>
+
+<!-- EMAIL SIGNUP -->
+<section class="max-w-4xl mx-auto px-6 py-16 text-center">
+  <h3 class="text-2xl font-bold mb-4">Join the AdaptBTC Newsletter</h3>
+  <p class="text-gray-300 mb-6">Get Bitcoin education, strategy tips, and updates.</p>
+
+  <form class="flex flex-col md:flex-row gap-4 justify-center">
+    <input type="email" placeholder="Your email address"
+      class="px-4 py-3 rounded-lg bg-white/10 border border-white/20 w-full md:w-96">
+    <button class="px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 font-semibold">
+      Subscribe
+    </button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer class="w-full border-t border-white/10 py-8 text-center text-gray-400">
+  <p>AdaptBTC • Los Angeles, CA</p>
+  <div class="mt-3 flex justify-center gap-6 text-sm">
+    <a href="privacy.html" class="hover:text-white">Privacy Policy</a>
+    <a href="terms.html" class="hover:text-white">Terms</a>
+  </div>
+</footer>
+
 </body>
 </html>

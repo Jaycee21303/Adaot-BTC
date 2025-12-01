@@ -1,2 +1,257 @@
-body { background:#0D1117; color:white; font-family:Arial, sans-serif; margin:0; padding:20px; }
-h1 { color:#3A7BFF; }
+/* ===========================================
+   GLOBAL RESET & BASE
+=========================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #0D1117;
+  color: white;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* Containers */
+.container {
+  width: 92%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 0;
+}
+
+/* ===========================================
+   TYPOGRAPHY
+=========================================== */
+
+h1, h2, h3 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 46px;
+  margin-bottom: 18px;
+  color: #3A7BFF;
+}
+
+h2 {
+  font-size: 32px;
+  margin-bottom: 14px;
+  color: #58A6FF;
+}
+
+h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+/* Paragraph spacing */
+p {
+  margin-bottom: 16px;
+  color: #d0d0d0;
+}
+
+/* Lists */
+ul {
+  margin: 16px 0;
+  padding-left: 22px;
+}
+
+li {
+  margin-bottom: 8px;
+  color: #cfcfcf;
+}
+
+/* ===========================================
+   NAVBAR
+=========================================== */
+
+.navbar {
+  width: 100%;
+  padding: 22px 0;
+  border-bottom: 1px solid #1F242B;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #3A7BFF;
+}
+
+.nav-links a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #cccccc;
+  font-size: 15px;
+  transition: 0.25s ease;
+}
+
+.nav-links a:hover {
+  color: white;
+}
+
+/* ===========================================
+   HERO SECTION
+=========================================== */
+
+.hero {
+  text-align: center;
+  padding: 70px 0 40px;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #aaa;
+}
+
+/* ===========================================
+   SECTIONS
+=========================================== */
+
+.section {
+  margin-top: 30px;
+  margin-bottom: 40px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #1F242B;
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+/* ===========================================
+   GRID / FEATURES
+=========================================== */
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 800px) {
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 34px;
+  }
+
+  h2 {
+    font-size: 26px;
+  }
+}
+
+/* ===========================================
+   CTA BUTTONS
+=========================================== */
+
+.btn-primary {
+  background: #3A7BFF;
+  color: white;
+  padding: 14px 22px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  transition: 0.25s ease;
+}
+
+.btn-primary:hover {
+  background: #69A0FF;
+}
+
+.btn-outline {
+  border: 1px solid #3A7BFF;
+  color: #3A7BFF;
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.25s ease;
+}
+
+.btn-outline:hover {
+  background: #3A7BFF;
+  color: white;
+}
+
+/* ===========================================
+   NEWSLETTER BLOCK
+=========================================== */
+
+.newsletter {
+  text-align: center;
+  background: #111521;
+  padding: 40px 20px;
+  border-radius: 10px;
+  margin: 50px 0;
+}
+
+.newsletter input {
+  padding: 14px;
+  width: 260px;
+  border-radius: 6px;
+  border: none;
+  margin-right: 8px;
+}
+
+.newsletter button {
+  padding: 14px 20px;
+  background: #3A7BFF;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.newsletter-success {
+  margin-top: 10px;
+  color: #00FF99;
+  font-weight: bold;
+}
+
+/* ===========================================
+   CARD COMPONENT
+=========================================== */
+
+.card {
+  background: #111521;
+  padding: 22px;
+  border-radius: 10px;
+  border: 1px solid #1F242B;
+}
+
+.card h3 {
+  color: #4EA0FF;
+}
+
+/* ===========================================
+   FOOTER
+=========================================== */
+
+.footer {
+  width: 100%;
+  padding: 24px 0;
+  text-align: center;
+  border-top: 1px solid #1F242B;
+  margin-top: 60px;
+  color: #bbbbbb;
+}

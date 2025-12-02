@@ -64,13 +64,32 @@
 
 <!-- WHAT IS BITCOIN -->
 <section id="what-is-bitcoin" class="max-w-6xl mx-auto px-6 py-10">
-    <div class="card space-y-4">
-        <h2 class="text-2xl font-bold">What Is Bitcoin?</h2>
-        <p class="text-gray-700">
-            Bitcoin is digital, peer-to-peer money that runs on a decentralized network of computers
-            called nodes. No single country, bank, or company controls it, and transactions are
-            recorded transparently on a public ledger (the blockchain).
-        </p>
+        <div class="card space-y-4">
+            <h2 class="text-2xl font-bold">What Is Bitcoin?</h2>
+            <p class="text-gray-700">
+                Bitcoin is digital, peer-to-peer money that runs on a decentralized network of computers
+                called nodes. No single country, bank, or company controls it, and transactions are
+                recorded transparently on a public ledger (the blockchain).
+            </p>
+
+            <div class="p-4 bg-blue-50 border border-blue-100 rounded-xl space-y-3 text-sm">
+                <div class="flex items-center gap-2">
+                    <h3 class="text-base font-semibold text-blue-900">Where Bitcoin Core fits today</h3>
+                    <span class="text-xs uppercase tracking-wide text-blue-700 bg-white border border-blue-200 px-2 py-0.5 rounded-full">reference software</span>
+                </div>
+                <p class="text-blue-900">
+                    Bitcoin Core is the open-source software most people use to run a full Bitcoin node. It enforces the network rules, verifies every block and transaction independently, and relays valid data to other peers so the network stays in consensus.
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-blue-900">
+                    <li><span class="font-semibold">Validates, then trusts:</span> downloads the blockchain, checks cryptography and UTXO spends, and rejects anything that breaks Bitcoin’s rules.</li>
+                    <li><span class="font-semibold">Runs the mempool & fees:</span> tracks pending transactions, applies current fee/mempool policies, and shares them with peers.</li>
+                    <li><span class="font-semibold">Wallet & RPC tools:</span> includes an optional built-in wallet plus command-line and API controls for backing up, sending, or monitoring addresses.</li>
+                    <li><span class="font-semibold">Modern features:</span> supports SegWit, Taproot, and the latest consensus upgrades so your node stays aligned with today’s network.</li>
+                </ul>
+                <p class="text-blue-900">
+                    Running Bitcoin Core yourself means you are not relying on an exchange or a website to tell you which transactions are valid—you verify with your own machine and internet connection.
+                </p>
+            </div>
 
         <div class="grid md:grid-cols-3 gap-4 text-sm">
             <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">

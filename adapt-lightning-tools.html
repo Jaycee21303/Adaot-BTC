@@ -21,7 +21,10 @@
         <a href="#charts">📊 Charts</a>
         <a href="#routing">🧭 Routing</a>
         <a href="#mapSection">🌍 Map</a>
+        <a href="#operations">📟 Ops Tower</a>
         <a href="#channels">💰 Channels</a>
+        <a href="#rollout">🛠️ Rollout</a>
+        <a href="#drills">🧭 Drills</a>
         <a href="#education">ℹ️ Education</a>
     </nav>
 </aside>
@@ -108,6 +111,130 @@
         <div id="map" class="map"></div>
     </section>
 
+    <!-- OPERATIONS CONTROL TOWER -->
+    <section id="operations">
+        <h1>Operations Control Tower</h1>
+
+        <div class="info-container">
+            <span class="info-icon">i</span>
+            <div class="tooltip-box">
+                A board-friendly cockpit summarizing uptime, routing reliability, and liquidity posture for
+                real merchant environments. Data is simulated in-browser for demos and can be wired to your
+                preferred node APIs.
+            </div>
+        </div>
+
+        <div class="ops-grid" id="ops-grid"></div>
+
+        <div class="ops-details">
+            <div>
+                <h3>Reliability snapshot</h3>
+                <p class="muted">Compare venues and pop-up deployments side-by-side. Hover for notes.</p>
+                <table class="data-table" id="reliability-table">
+                    <thead>
+                        <tr>
+                            <th>Deployment</th>
+                            <th>Uptime</th>
+                            <th>Success %</th>
+                            <th>Rebalances</th>
+                            <th>Fees Earned</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="card-stack">
+                <div class="mini-card">
+                    <h4>Routing quality</h4>
+                    <p id="routing-grade" class="stat">–</p>
+                    <p class="muted">Weighted by uptime, failed invoices, and median fees.</p>
+                </div>
+                <div class="mini-card">
+                    <h4>Liquidity posture</h4>
+                    <p id="liquidity-label" class="stat">–</p>
+                    <p class="muted">Outbound vs inbound balance with a recommended action.</p>
+                </div>
+                <div class="mini-card">
+                    <h4>Ops drill score</h4>
+                    <p id="drill-score" class="stat">–</p>
+                    <p class="muted">Derived from simulated tabletop exercises below.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline" id="uptime-timeline"></div>
+    </section>
+
+    <!-- DATA & INTEGRATION NOTES -->
+    <section id="data-room">
+        <h1>Data sources & integration ideas</h1>
+
+        <div class="info-container">
+            <span class="info-icon">i</span>
+            <div class="tooltip-box">
+                The suite ships with demo data but is wired for production. Pair it with Prometheus, Amboss, or your preferred
+                wallet/node API to run it as your own observability cockpit.
+            </div>
+        </div>
+
+        <div class="card-grid">
+            <div class="card" style="text-align:left;">
+                <h3>Out of the box</h3>
+                <p class="muted">Reads public mempool + Lightning stats and simulates node data for demos. Perfect for
+                    workshops where you need to show concepts fast.</p>
+                <ul class="bullet">
+                    <li>Mempool.space fee + capacity endpoints.</li>
+                    <li>Amboss rankings for uptime and peer discovery.</li>
+                    <li>Leaflet map populated with public IP geodata.</li>
+                </ul>
+            </div>
+            <div class="card" style="text-align:left;">
+                <h3>Production wiring</h3>
+                <p class="muted">Connect your node’s API or Prometheus exporter to replace the demo payloads. Works with
+                    LND, Core Lightning, Voltage, Umbrel, or Voltage dashboards.</p>
+                <ul class="bullet">
+                    <li>Swap <code>safeFetch</code> URLs for your own node endpoints.</li>
+                    <li>Feed uptime probes from Uptime Kuma, PagerDuty, or Grafana.</li>
+                    <li>Render private invoice stats without sharing secrets.</li>
+                </ul>
+            </div>
+            <div class="card" style="text-align:left;">
+                <h3>Evidence exports</h3>
+                <p class="muted">Screenshots and JSON dumps that answer diligence questions. Keep a folder of these with
+                    each board packet.</p>
+                <ul class="bullet">
+                    <li>Routing simulator hops with uptime annotations.</li>
+                    <li>Channel profitability outputs with hardware payback.</li>
+                    <li>Drill checklist completion dates and owners.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="grid-two" style="margin-top:18px;">
+            <div class="card" style="text-align:left;">
+                <h3>API endpoints to consider</h3>
+                <ul class="bullet">
+                    <li><strong>/v1/getinfo</strong> for node alias, pubkey, and version control.</li>
+                    <li><strong>/v1/channels</strong> for balances, peers, and pending HTLCs.</li>
+                    <li><strong>/v1/invoice</strong> outputs for average payment size and memo hygiene.</li>
+                    <li><strong>Prometheus</strong> metrics for CPU, disk, bandwidth, and mempool watchers.</li>
+                    <li><strong>Audit webhooks</strong> to record who touched liquidity and when.</li>
+                </ul>
+            </div>
+            <div class="card" style="text-align:left;">
+                <h3>Shareable stories</h3>
+                <ul class="bullet">
+                    <li>“We rebalanced before the concert rush—0 failed invoices.”</li>
+                    <li>“Card fees would have cost $1,200 this month; Lightning cost $90.”</li>
+                    <li>“We ran three drills this quarter; mean time to recovery is 4 minutes.”</li>
+                    <li>“Fallback hosted node carried 12% of traffic without customer friction.”</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
     <!-- CHANNEL PROFIT -->
     <section id="channels">
         <h1>Channel Profitability Calculator</h1>
@@ -132,6 +259,105 @@
         <div class="results"><ul id="profitList"></ul></div>
     </section>
 
+    <!-- ROLLOUT PLANNER -->
+    <section id="rollout">
+        <h1>Lightning Rollout Planner</h1>
+
+        <div class="info-container">
+            <span class="info-icon">i</span>
+            <div class="tooltip-box">
+                Plan capital deployment across multiple venues, estimate channel count, and pick the right
+                liquidity mix before ordering hardware. Outputs are meant for investor memos and vendor RFPs.
+            </div>
+        </div>
+
+        <div class="form two-col">
+            <input id="venueCount" type="number" placeholder="Number of locations or POS lanes">
+            <input id="avgTicket" type="number" placeholder="Average ticket size (USD)">
+            <input id="dailyTx" type="number" placeholder="Expected daily Lightning tx per venue">
+            <input id="channelBudget" type="number" placeholder="Capital available per venue (USD)">
+            <select id="liquidityBias">
+                <option value="balanced">Balanced outbound/inbound</option>
+                <option value="outbound">High outbound (sales heavy)</option>
+                <option value="inbound">High inbound (refunds + payouts)</option>
+            </select>
+            <select id="vendorProfile">
+                <option value="first-party">First-party node + hardware</option>
+                <option value="hybrid">Hybrid: hosted fallback + self-hosted primary</option>
+                <option value="hosted">Hosted node with SLA</option>
+            </select>
+        </div>
+
+        <div class="btn-row">
+            <button class="btn" id="simulateRollout">Generate plan</button>
+            <button class="btn ghost" id="loadRolloutSample">Load demo scenario</button>
+        </div>
+
+        <div class="grid-two" id="rollout-results">
+            <div class="card">
+                <h3>Channel recommendations</h3>
+                <ul id="channel-recs" class="bullet"></ul>
+            </div>
+            <div class="card">
+                <h3>Budget & savings</h3>
+                <ul id="budget-recs" class="bullet"></ul>
+            </div>
+            <div class="card">
+                <h3>Vendor guidance</h3>
+                <ul id="vendor-recs" class="bullet"></ul>
+            </div>
+            <div class="card">
+                <h3>Launch checklist</h3>
+                <ul id="launch-checklist" class="bullet"></ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- DRILLS & RUNBOOKS -->
+    <section id="drills">
+        <h1>Drills, Audits, and SLA Guardrails</h1>
+
+        <div class="info-container">
+            <span class="info-icon">i</span>
+            <div class="tooltip-box">
+                Tabletop exercises and guardrails for Lightning operations teams. Use them during quarterly audits or when
+                onboarding new staff to keep channel capital safe.
+            </div>
+        </div>
+
+        <div class="drill-grid">
+            <div class="drill-card">
+                <h3>Incident drills</h3>
+                <ul id="drill-list" class="bullet"></ul>
+            </div>
+            <div class="drill-card">
+                <h3>Key management</h3>
+                <ul id="key-guardrails" class="bullet"></ul>
+            </div>
+            <div class="drill-card">
+                <h3>Invoice QA</h3>
+                <ul id="invoice-qa" class="bullet"></ul>
+            </div>
+            <div class="drill-card">
+                <h3>Compliance & audit</h3>
+                <ul id="compliance-steps" class="bullet"></ul>
+            </div>
+        </div>
+
+        <div class="callouts">
+            <div class="callout">
+                <h4>SLAs investors like to see</h4>
+                <p class="muted">If you deliver Lightning as part of a product, publish these targets.</p>
+                <ol id="sla-list" class="numbered"></ol>
+            </div>
+            <div class="callout">
+                <h4>Evidence you can export</h4>
+                <p class="muted">Screenshots, JSON logs, and SOP links to attach to diligence packets.</p>
+                <ol id="evidence-list" class="numbered"></ol>
+            </div>
+        </div>
+    </section>
+
     <!-- EDUCATION -->
     <section id="education">
         <h1>How Lightning Works</h1>
@@ -141,6 +367,39 @@
             through nodes that are online and liquid. This suite helps you
             understand each part of the process.
         </p>
+
+        <div class="card-grid" style="margin-top:18px;">
+            <div class="card" style="text-align:left;">
+                <h3>1) Open a channel</h3>
+                <p class="muted">Two peers lock BTC in a 2-of-2 multi-sig. Think of it as a joint tab that can be
+                    updated instantly without touching the base chain.</p>
+                <ul class="bullet">
+                    <li>Funding tx confirmed on-chain sets the capacity.</li>
+                    <li>Inbound vs outbound liquidity dictates which direction you can pay.</li>
+                    <li>Peers charge a base fee and ppm (parts-per-million) per forward.</li>
+                </ul>
+            </div>
+            <div class="card" style="text-align:left;">
+                <h3>2) Route the payment</h3>
+                <p class="muted">Your wallet finds a path of online, funded nodes. Each hop forwards the payment and
+                    collects a small fee. The simulator above shows how hops string together.</p>
+                <ul class="bullet">
+                    <li>Shorter paths with healthy liquidity mean fewer failures.</li>
+                    <li>Nodes can set fees dynamically; competitive pricing wins traffic.</li>
+                    <li>HTLCs protect funds during the in-flight state.</li>
+                </ul>
+            </div>
+            <div class="card" style="text-align:left;">
+                <h3>3) Close or rebalance</h3>
+                <p class="muted">Channels can be rebalanced to restore outbound capacity or closed to reclaim funds on
+                    chain. Use the operations tower to decide when and where to move liquidity.</p>
+                <ul class="bullet">
+                    <li>Scheduled rebalances before peak hours reduce stuck payments.</li>
+                    <li>Force closes are a last resort—prefer cooperative closes.</li>
+                    <li>Track fees earned vs on-chain costs to stay profitable.</li>
+                </ul>
+            </div>
+        </div>
     </section>
 
 </main>

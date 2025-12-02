@@ -279,6 +279,223 @@ canvas {
 }
 
 /* ============================================================
+   OPERATIONS CONTROL TOWER
+   ============================================================ */
+
+.ops-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  margin: 20px 0;
+}
+
+.ops-card {
+  background: #ffffff;
+  border: 1px solid #e6e6ef;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+
+.ops-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ops-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.ops-metrics .label {
+  color: #6b7280;
+  font-size: 12px;
+  margin: 0;
+}
+
+.ops-metrics .value {
+  font-weight: 700;
+  margin: 2px 0 0;
+}
+
+.muted {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.ops-details {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.05);
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ececf3;
+  text-align: left;
+  font-size: 14px;
+}
+
+.data-table th {
+  background: #faf8ff;
+  color: #4b5563;
+  font-weight: 700;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.card-stack {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+  gap: 10px;
+}
+
+.mini-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+.mini-card .stat {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 6px 0;
+}
+
+.timeline {
+  margin-top: 22px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid #e7e7f2;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.05);
+}
+
+.timeline-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.timeline-label {
+  font-weight: 600;
+  color: #111827;
+}
+
+.timeline-points {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0,1fr));
+  gap: 6px;
+  align-items: end;
+}
+
+.timeline-points span {
+  display: block;
+  background: linear-gradient(180deg, #c4b5fd, #673ab7);
+  border-radius: 6px;
+  height: 40px;
+}
+
+/* ============================================================
+   ROLLOUT PLANNER & DRILLS
+   ============================================================ */
+
+.two-col {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.form select {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #d4d6db;
+  font-size: 15px;
+  background: white;
+}
+
+.btn-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+
+.btn.ghost {
+  background: white;
+  color: #673ab7;
+  border: 1px solid #d1d5db;
+}
+
+.grid-two {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.bullet {
+  list-style: disc;
+  padding-left: 18px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.drill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.drill-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+.callouts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.callout {
+  background: #f8fafc;
+  border: 1px dashed #c7c9d8;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.numbered {
+  list-style: decimal;
+  padding-left: 18px;
+  color: #374151;
+  line-height: 1.7;
+}
+
+/* ============================================================
    EDUCATION SECTION
    ============================================================ */
 

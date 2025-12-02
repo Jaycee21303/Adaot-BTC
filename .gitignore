@@ -1,0 +1,11 @@
+# Environment and secrets
+.env
+.env.*
+
+# Node tooling
+node_modules/
+npm-debug.log*
+
+# OS/Editor
+.DS_Store
+*.swp

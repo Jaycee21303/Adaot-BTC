@@ -195,6 +195,148 @@ async function loadGeoMap() {
 loadGeoMap();
 
 /* ============================================================
+   OPERATIONS CONTROL TOWER (SIMULATED DATA)
+   ============================================================ */
+
+const opsDeployments = [
+    {
+        name: "Downtown café",
+        uptime: 99.2,
+        success: 98.4,
+        rebalances: 3,
+        fees: 42000,
+        liquidity: "Outbound heavy",
+        note: "POS lanes peak 7–10am; run scheduled rebalances before open.",
+        timeline: [98.8, 99.4, 99.2, 98.9, 99.1, 99.3, 99.2]
+    },
+    {
+        name: "Mobile pop-up",
+        uptime: 96.7,
+        success: 94.5,
+        rebalances: 5,
+        fees: 12000,
+        liquidity: "Balanced",
+        note: "Runs on LTE. Keep a hosted fallback ready during festivals.",
+        timeline: [95.1, 96.2, 96.8, 97.0, 96.5, 96.9, 96.7]
+    },
+    {
+        name: "E-commerce node",
+        uptime: 99.6,
+        success: 99.1,
+        rebalances: 1,
+        fees: 72000,
+        liquidity: "Inbound rich",
+        note: "Most invoices auto-convert; keep 25% BTC for routing.",
+        timeline: [99.4, 99.5, 99.7, 99.6, 99.6, 99.7, 99.6]
+    }
+];
+
+function renderOpsGrid() {
+    const grid = document.getElementById("ops-grid");
+    if (!grid) return;
+
+    grid.innerHTML = "";
+
+    opsDeployments.forEach(deployment => {
+        const card = document.createElement("div");
+        card.className = "ops-card";
+        card.innerHTML = `
+            <div class="ops-header">
+                <h3>${deployment.name}</h3>
+                <span class="pill">${deployment.liquidity}</span>
+            </div>
+            <p class="muted">${deployment.note}</p>
+            <div class="ops-metrics">
+                <div>
+                    <p class="label">Uptime</p>
+                    <p class="value">${deployment.uptime}%</p>
+                </div>
+                <div>
+                    <p class="label">Success</p>
+                    <p class="value">${deployment.success}%</p>
+                </div>
+                <div>
+                    <p class="label">Rebalances</p>
+                    <p class="value">${deployment.rebalances}/wk</p>
+                </div>
+                <div>
+                    <p class="label">Fees</p>
+                    <p class="value">${deployment.fees.toLocaleString()} sats</p>
+                </div>
+            </div>
+        `;
+
+        grid.appendChild(card);
+    });
+}
+
+function renderReliabilityTable() {
+    const table = document.querySelector("#reliability-table tbody");
+    if (!table) return;
+
+    table.innerHTML = "";
+    opsDeployments.forEach(deployment => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${deployment.name}</td>
+            <td>${deployment.uptime}%</td>
+            <td>${deployment.success}%</td>
+            <td>${deployment.rebalances}</td>
+            <td>${deployment.fees.toLocaleString()} sats</td>
+            <td>${deployment.note}</td>
+        `;
+        table.appendChild(tr);
+    });
+}
+
+function renderOpsStats() {
+    const routingGrade = document.getElementById("routing-grade");
+    const liquidityLabel = document.getElementById("liquidity-label");
+    const drillScore = document.getElementById("drill-score");
+
+    if (!routingGrade || !liquidityLabel || !drillScore) return;
+
+    const avgUptime = opsDeployments.reduce((acc, cur) => acc + cur.uptime, 0) / opsDeployments.length;
+    const avgSuccess = opsDeployments.reduce((acc, cur) => acc + cur.success, 0) / opsDeployments.length;
+
+    const routingComposite = ((avgUptime * 0.6) + (avgSuccess * 0.4)).toFixed(1);
+    routingGrade.textContent = `${routingComposite}% overall`;
+
+    const liquidityHint = opsDeployments.some(d => d.liquidity.includes("Outbound"))
+        ? "Shift 15% inbound to prevent stuck invoices"
+        : "Balanced mix — monitor weekly";
+    liquidityLabel.textContent = liquidityHint;
+
+    const drillComposite = Math.min(100, Math.round((avgSuccess + avgUptime) / 2 + 2));
+    drillScore.textContent = `${drillComposite}/100 readiness`;
+}
+
+function renderTimeline() {
+    const timeline = document.getElementById("uptime-timeline");
+    if (!timeline) return;
+
+    timeline.innerHTML = "";
+
+    opsDeployments.forEach(deployment => {
+        const row = document.createElement("div");
+        row.className = "timeline-row";
+        const points = deployment.timeline
+            .map(point => `<span title="${point}%" style="height:${point}%"></span>`) // height as %
+            .join("");
+        row.innerHTML = `
+            <div class="timeline-label">${deployment.name}</div>
+            <div class="timeline-points">${points}</div>
+        `;
+        timeline.appendChild(row);
+    });
+}
+
+renderOpsGrid();
+renderReliabilityTable();
+renderOpsStats();
+renderTimeline();
+
+/* ============================================================
    CHANNEL PROFITABILITY CALCULATOR
    ============================================================ */
 
@@ -261,3 +403,168 @@ window.addEventListener("scroll", () => {
         }
     });
 });
+
+/* ============================================================
+   ROLLOUT PLANNER LOGIC
+   ============================================================ */
+
+const rolloutChecklist = [
+    "Map payment volume by hour to time rebalances when channels are quiet.",
+    "Document on-call escalation: which signer or vendor handles stuck HTLCs?",
+    "Capture before/after snapshots for investor updates (fees, uptime, savings).",
+    "Run a smoke test: send $5 equivalent through every lane and confirm receipts.",
+    "Schedule a 30-day review to resize channels after real traffic data arrives."
+];
+
+function simulatePlan(inputs) {
+    const venues = inputs.venueCount || 1;
+    const ticket = inputs.avgTicket || 20;
+    const tx = inputs.dailyTx || 50;
+    const budget = inputs.channelBudget || 800;
+    const bias = inputs.liquidityBias || "balanced";
+    const profile = inputs.vendorProfile || "first-party";
+
+    const channelCount = Math.max(2, Math.round((tx * 30) / 500));
+    const perChannel = Math.max(100_000, Math.round((budget * 100_000) / channelCount));
+
+    const channelRecs = [
+        `${channelCount} channels per venue (~${perChannel.toLocaleString()} sats each) for smooth routing.`,
+        bias === "outbound"
+            ? "Open 60% outbound liquidity toward high-volume exchanges or LSPs."
+            : bias === "inbound"
+                ? "Reserve 50% for inbound liquidity to simplify refunds and payouts."
+                : "Keep a 50/50 split and re-evaluate after two weeks of traffic.",
+        "Allocate one channel to a high-uptime node (99%+) for settlement-grade receipts."
+    ];
+
+    const budgetRecs = [
+        `Total rollout: ~$${(budget * venues).toLocaleString()} across ${venues} venues.`,
+        `Expected Lightning fee savings: ~$${Math.round(ticket * tx * venues * 0.025).toLocaleString()} / day vs 2.9% cards.`,
+        "Keep 10% of budget as a liquidity buffer for surprise traffic spikes."
+    ];
+
+    const vendorRecs = [
+        profile === "hosted"
+            ? "Negotiate a published SLA and exportable uptime logs from your hosted provider."
+            : "Run your own node with a hosted fallback; monitor both in the control tower above.",
+        "Standardize firmware, OS patching cadence, and who holds the SSH/seed backups.",
+        "Make sure vendor contract spells out support for stuck HTLCs during events."
+    ];
+
+    const checklist = [...rolloutChecklist];
+
+    return { channelRecs, budgetRecs, vendorRecs, checklist };
+}
+
+function renderPlanSections(plan) {
+    const channelList = document.getElementById("channel-recs");
+    const budgetList = document.getElementById("budget-recs");
+    const vendorList = document.getElementById("vendor-recs");
+    const launchList = document.getElementById("launch-checklist");
+
+    if (!channelList || !budgetList || !vendorList || !launchList) return;
+
+    const fill = (el, items) => {
+        el.innerHTML = items.map(item => `<li>${item}</li>`).join("");
+    };
+
+    fill(channelList, plan.channelRecs);
+    fill(budgetList, plan.budgetRecs);
+    fill(vendorList, plan.vendorRecs);
+    fill(launchList, plan.checklist);
+}
+
+function readRolloutInputs() {
+    return {
+        venueCount: Number(document.getElementById("venueCount")?.value),
+        avgTicket: Number(document.getElementById("avgTicket")?.value),
+        dailyTx: Number(document.getElementById("dailyTx")?.value),
+        channelBudget: Number(document.getElementById("channelBudget")?.value),
+        liquidityBias: document.getElementById("liquidityBias")?.value,
+        vendorProfile: document.getElementById("vendorProfile")?.value
+    };
+}
+
+const rolloutButton = document.getElementById("simulateRollout");
+if (rolloutButton) {
+    rolloutButton.addEventListener("click", () => {
+        const inputs = readRolloutInputs();
+        renderPlanSections(simulatePlan(inputs));
+    });
+}
+
+const demoButton = document.getElementById("loadRolloutSample");
+if (demoButton) {
+    demoButton.addEventListener("click", () => {
+        document.getElementById("venueCount").value = 4;
+        document.getElementById("avgTicket").value = 18;
+        document.getElementById("dailyTx").value = 120;
+        document.getElementById("channelBudget").value = 1200;
+        document.getElementById("liquidityBias").value = "outbound";
+        document.getElementById("vendorProfile").value = "hybrid";
+
+        renderPlanSections(simulatePlan(readRolloutInputs()));
+    });
+}
+
+renderPlanSections(simulatePlan({}));
+
+/* ============================================================
+   DRILLS, AUDITS, AND SLA GUARDRAILS
+   ============================================================ */
+
+const drills = [
+    "Practice an emergency channel close and verify balances on-chain.",
+    "Run through a stuck HTLC rescue using your preferred wallet toolkit.",
+    "Simulate loss of a POS device and rotate API keys + macaroons.",
+    "Publish a post-mortem template so teams can document incidents quickly."
+];
+
+const guardrails = [
+    "Store seeds offline with dual control; test restores quarterly.",
+    "Separate signing device roles: hot for POS, cold for treasury.",
+    "Use spending limits and rate limits on any exposed APIs.",
+    "Log every channel open/close with signer names and timestamps."
+];
+
+const invoiceQA = [
+    "Decode random invoices and confirm amount, memo, and expiry times.",
+    "Test fallback static QR codes with on-chain invoices for large gifts.",
+    "Spot-check that memos contain project/customer metadata for reconciliation.",
+    "Verify webhooks fire on paid/unpaid statuses across staging and prod."
+];
+
+const compliance = [
+    "Snapshot node config hashes before and after upgrades.",
+    "Keep SOC 2 style evidence: uptime charts, alert screenshots, signed SOPs.",
+    "Document vendor SLAs and escalation contacts in a single runbook.",
+    "Track who touched channels and when using append-only logs."
+];
+
+const slaTargets = [
+    "99.5% Lightning uptime per quarter with hourly probes.",
+    "<1.5% failed invoices after two retries.",
+    "<30 seconds to render an invoice and receive a payment confirmation.",
+    "24/7 paging rotation with <30 minute response for production outages.",
+    "Quarterly resilience drills covering stuck HTLCs and lost devices."
+];
+
+const evidenceKit = [
+    "Export JSON from uptime monitors with timestamps and probing regions.",
+    "Attach screenshots of mempool heatmaps used during big events.",
+    "Link to SOPs for rebalancing, force-closing, and device off-boarding.",
+    "Redact-and-share incident writeups highlighting mean-time-to-recovery."
+];
+
+function renderDrillSection(id, items) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = items.map(item => `<li>${item}</li>`).join("");
+}
+
+renderDrillSection("drill-list", drills);
+renderDrillSection("key-guardrails", guardrails);
+renderDrillSection("invoice-qa", invoiceQA);
+renderDrillSection("compliance-steps", compliance);
+renderDrillSection("sla-list", slaTargets.map(target => `<strong>Target:</strong> ${target}`));
+renderDrillSection("evidence-list", evidenceKit);

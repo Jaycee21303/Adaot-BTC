@@ -7,7 +7,7 @@
     <link rel="canonical" href="https://adaptbtc.com/">
     <title>AdaptBTC – Why Bitcoin Matters</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com" defer></script>
     <link rel="stylesheet" href="assets/css/global.css">
 </head>
 
@@ -15,7 +15,7 @@
 
 <!-- NAVBAR -->
 <header class="w-full bg-white shadow-sm">
-    <nav class="max-w-7xl mx-auto flex flex-wrap items-center gap-4 md:gap-6 justify-between py-3 px-6">
+    <nav class="max-w-7xl mx-auto flex flex-wrap items-center gap-4 md:gap-6 justify-between py-3 px-6" role="navigation" aria-label="Primary">
         <div class="flex items-center gap-3 flex-shrink-0">
             <a href="index.html" class="brand-button" aria-label="AdaptBTC home">
                 <span>Adapt</span><span class="brand-text-btc">BTC</span>
@@ -34,10 +34,10 @@
 </header>
 
 <!-- PRICE TICKER -->
-<section class="page-section pt-10 pb-6 flex justify-center">
+<section class="page-section pt-10 pb-6 flex justify-center" id="main-content">
     <div class="price-ticker-card">
         <div class="ticker-label">Live Bitcoin Price</div>
-        <div id="price-ticker" class="flex items-center gap-3">
+        <div id="price-ticker" class="flex items-center gap-3" aria-live="polite" aria-atomic="true">
             <span id="btc-price" data-last="0">$0</span>
             <span id="btc-arrow">→</span>
             <span id="btc-change" class="ticker-change">0.00%</span>
@@ -528,6 +528,6 @@
     </div>
 </footer>
 
-<script src="assets/js/main.js"></script>
+<script src="assets/js/main.js" defer></script>
 </body>
 </html>

@@ -15,6 +15,24 @@ body {
   overflow-x: hidden;
 }
 
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 10px;
+  background: #111827;
+  color: #f8fafc;
+  padding: 10px 14px;
+  border-radius: 10px;
+  z-index: 1200;
+  text-decoration: none;
+  transition: left 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  left: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
 h1, h2, h3 {
   font-weight: 600;
 }
@@ -72,7 +90,8 @@ h1, h2, h3 {
    MAIN CONTENT
    ============================================================ */
 
-#content {
+#content,
+#main-content {
   margin-left: 260px;
   padding: 40px;
   width: calc(100% - 260px);
@@ -111,10 +130,17 @@ section h1 {
   line-height: 18px;
   text-align: center;
   opacity: 0.85;
+  border: none;
+  cursor: help;
 }
 
 .info-icon:hover {
   opacity: 1;
+}
+
+.info-icon:focus-visible {
+  outline: 2px solid #7c3aed;
+  outline-offset: 2px;
 }
 
 .tooltip-box {
@@ -133,6 +159,11 @@ section h1 {
 }
 
 .info-container:hover .tooltip-box {
+  display: block;
+}
+
+.info-container:focus-within .tooltip-box,
+.tooltip-box.visible {
   display: block;
 }
 
@@ -517,7 +548,8 @@ canvas {
     width: 200px;
   }
 
-  #content {
+  #content,
+  #main-content {
     margin-left: 200px;
     width: calc(100% - 200px);
     padding: 25px;
@@ -535,7 +567,8 @@ canvas {
     left: 0;
   }
 
-  #content {
+  #content,
+  #main-content {
     margin-left: 0;
     width: 100%;
   }

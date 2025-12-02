@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AdaptBTC Lightning Suite</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="suite.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+
+<body>
+
+<!-- ===================== SIDEBAR ====================== -->
+
+<aside id="sidebar">
+    <h2>AdaptBTC Lightning Suite</h2>
+    <nav>
+        <a href="#live">⚡ Live Status</a>
+        <a href="#charts">📊 Charts</a>
+        <a href="#routing">🧭 Routing</a>
+        <a href="#mapSection">🌍 Map</a>
+        <a href="#channels">💰 Channels</a>
+        <a href="#education">ℹ️ Education</a>
+    </nav>
+</aside>
+
+<!-- ===================== MAIN CONTENT ====================== -->
+
+<main id="content">
+
+    <!-- LIVE STATUS -->
+    <section id="live">
+        <h1>Live Lightning Network Status</h1>
+        <div class="info-container">
+            <span class="info-icon">i</span>
+            <div class="tooltip-box">
+                Real-time Lightning network statistics:<br><br>
+                • Capacity = total BTC locked in channels<br>
+                • Channels = number of active payment paths<br>
+                • Nodes = number of Lightning participants<br><br>
+                These values reflect global Lightning health.
+            </div>
+        </div>
+
+        <div class="card-grid">
+            <div class="card"><h3>Mempool</h3><p id="cardMempool">...</p></div>
+            <div class="card"><h3>LN Capacity</h3><p id="cardCapacity">...</p></div>
+            <div class="card"><h3>Channels</h3><p id="cardChannels">...</p></div>
+            <div class="card"><h3>Nodes</h3><p id="cardNodes">...</p></div>
+        </div>
+
+        <h2>Mempool Heatmap</h2>
+        <div id="congestionBox" class="mempool-box">
+            <h3 id="congestionLabel">Loading...</h3>
+            <div id="congestionIndicator" class="mempool-bar"></div>
+        </div>
+    </section>
+
+    <!-- CHARTS -->
+    <section id="charts">
+        <h1>Lightning Network Charts</h1>
+
+        <div class="info-container">
+            <span class="info-icon">i</span>
+            <div class="tooltip-box">
+                These charts visualize Lightning liquidity and reliability across
+                the global network. Higher capacity and uptime means smoother,
+                faster, more successful payments.
+            </div>
+        </div>
+
+        <canvas id="capacityChart"></canvas>
+        <canvas id="trustChart" style="margin-top:40px;"></canvas>
+    </section>
+
+    <!-- ROUTING -->
+    <section id="routing">
+        <h1>Routing Path Simulator</h1>
+
+        <div class="info-container">
+            <span class="info-icon">i</span>
+            <div class="tooltip-box">
+                Lightning payments travel through multiple nodes before reaching
+                the receiver. This simulator helps visualize how payments hop
+                across the network and where failures may occur.
+            </div>
+        </div>
+
+        <button class="btn" id="drawRoute">Generate Route</button>
+        <div id="routeCanvas" class="route"></div>
+    </section>
+
+    <!-- MAP -->
+    <section id="mapSection">
+        <h1>Global Lightning Node Map</h1>
+
+        <div class="info-container">
+            <span class="info-icon">i</span>
+            <div class="tooltip-box">
+                Each marker represents a Lightning node. This map helps users
+                understand how widespread Lightning infrastructure is around
+                the world. More nodes = better connectivity & routing.
+            </div>
+        </div>
+
+        <div id="map" class="map"></div>
+    </section>
+
+    <!-- CHANNEL PROFIT -->
+    <section id="channels">
+        <h1>Channel Profitability Calculator</h1>
+
+        <div class="info-container">
+            <span class="info-icon">i</span>
+            <div class="tooltip-box">
+                Routing nodes earn small fees for forwarding Lightning payments.
+                This calculator estimates potential monthly revenue and ROI
+                based on fee settings and expected traffic.
+            </div>
+        </div>
+
+        <div class="form">
+            <input id="chanSize" type="number" placeholder="Channel Size (sats)">
+            <input id="baseFee" type="number" placeholder="Base Fee (sats)" value="1">
+            <input id="feePpm" type="number" placeholder="Fee Rate (ppm)" value="100">
+            <input id="volume" type="number" placeholder="Monthly Routed Volume (sats)">
+            <button id="profitCalc" class="btn">Calculate</button>
+        </div>
+
+        <div class="results"><ul id="profitList"></ul></div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+        <h1>How Lightning Works</h1>
+        <p>
+            Lightning is a network of payment channels that allow instant,
+            low-fee Bitcoin transactions. When you send a payment, it travels
+            through nodes that are online and liquid. This suite helps you
+            understand each part of the process.
+        </p>
+    </section>
+
+</main>
+
+<script src="suite.js"></script>
+
+</body>
+</html>

@@ -1,284 +1,162 @@
-/* ===========================================
-   GLOBAL RESET & BASE
-=========================================== */
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* --------------------------------------------------
+   GLOBAL BASE STYLES
+-------------------------------------------------- */
 
 body {
-  background: #0D1117;
-  color: white;
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
+    font-family: 'Inter', Arial, sans-serif;
+    background-color: #f5f6f8;
+    margin: 0;
+    padding: 0;
+    color: #1a1a1a;
 }
 
-/* Containers */
+/* Remove outline halo */
+*:focus {
+    outline: none;
+}
+
+/* --------------------------------------------------
+   LAYOUT
+-------------------------------------------------- */
+
 .container {
-  width: 92%;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 40px 0;
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
 }
 
-/* ===========================================
-   TYPOGRAPHY
-=========================================== */
+/* --------------------------------------------------
+   CARDS
+-------------------------------------------------- */
 
-h1, h2, h3 {
-  font-weight: bold;
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-h1 {
-  font-size: 46px;
-  margin-bottom: 18px;
-  color: #3A7BFF;
-}
-
-h2 {
-  font-size: 32px;
-  margin-bottom: 14px;
-  color: #58A6FF;
-}
-
-h3 {
-  font-size: 22px;
-  margin-bottom: 10px;
-}
-
-/* Paragraph spacing */
-p {
-  margin-bottom: 16px;
-  color: #d0d0d0;
-}
-
-/* Lists */
-ul {
-  margin: 16px 0;
-  padding-left: 22px;
-}
-
-li {
-  margin-bottom: 8px;
-  color: #cfcfcf;
-}
-
-/* ===========================================
-   NAVBAR
-=========================================== */
-
-.navbar {
-  width: 100%;
-  padding: 22px 0;
-  border-bottom: 1px solid #1F242B;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.nav-logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #3A7BFF;
-}
-
-.nav-links a {
-  margin-left: 20px;
-  text-decoration: none;
-  color: #cccccc;
-  font-size: 15px;
-  transition: 0.25s ease;
-}
-
-.nav-links a:hover {
-  color: white;
-}
-
-/* ===========================================
-   HERO SECTION
-=========================================== */
-
-.hero {
-  text-align: center;
-  padding: 70px 0 40px;
-}
-
-.hero p {
-  font-size: 18px;
-  color: #aaa;
-}
-
-/* ===========================================
-   SECTIONS
-=========================================== */
-
-.section {
-  margin-top: 30px;
-  margin-bottom: 40px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #1F242B;
-}
-
-.section:last-child {
-  border-bottom: none;
-}
-
-/* ===========================================
-   GRID / FEATURES
-=========================================== */
-
-.grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 26px;
-}
-
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 26px;
-}
-
-/* Mobile responsiveness */
-@media (max-width: 800px) {
-  .grid-2,
-  .grid-3 {
-    grid-template-columns: 1fr;
-  }
-
-  h1 {
-    font-size: 34px;
-  }
-
-  h2 {
-    font-size: 26px;
-  }
-}
-
-/* ===========================================
-   CTA BUTTONS
-=========================================== */
+/* --------------------------------------------------
+   BUTTONS
+-------------------------------------------------- */
 
 .btn-primary {
-  background: #3A7BFF;
-  color: white;
-  padding: 14px 22px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: bold;
-  display: inline-block;
-  transition: 0.25s ease;
+    display: inline-block;
+    padding: 12px 26px;
+    background-color: #2563eb;
+    color: white !important;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: 0.2s;
 }
 
 .btn-primary:hover {
-  background: #69A0FF;
+    background-color: #1e4fcc;
 }
 
-.btn-outline {
-  border: 1px solid #3A7BFF;
-  color: #3A7BFF;
-  padding: 12px 20px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: 0.25s ease;
+/* --------------------------------------------------
+   INPUTS / FORMS
+-------------------------------------------------- */
+
+.newsletter-input,
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #d0d0d0;
+    background: #fafafa;
+    font-size: 15px;
+    color: #333;
 }
 
-.btn-outline:hover {
-  background: #3A7BFF;
-  color: white;
+.newsletter-input:focus,
+input:focus,
+select:focus {
+    border-color: #2563eb;
+    background: white;
 }
 
-/* ===========================================
-   NEWSLETTER BLOCK
-=========================================== */
+/* --------------------------------------------------
+   PRICE TICKER
+-------------------------------------------------- */
 
-.newsletter {
-  text-align: center;
-  background: #111521;
-  padding: 40px 20px;
-  border-radius: 10px;
-  margin: 50px 0;
+#price-ticker {
+    font-size: 18px;
+    font-weight: 600;
 }
 
-.newsletter input {
-  padding: 14px;
-  width: 260px;
-  border-radius: 6px;
-  border: none;
-  margin-right: 8px;
+#btc-price {
+    color: #1a1a1a;
 }
 
-.newsletter button {
-  padding: 14px 20px;
-  background: #3A7BFF;
-  border: none;
-  color: white;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.25s ease;
+#btc-arrow {
+    font-size: 18px;
 }
 
-.newsletter-success {
-  margin-top: 10px;
-  color: #00FF99;
-  font-weight: bold;
+/* --------------------------------------------------
+   HALVING COUNTDOWN
+-------------------------------------------------- */
+
+#halving-countdown {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1a1a1a;
 }
 
-/* ===========================================
-   CARD COMPONENT
-=========================================== */
-
-.card {
-  background: #111521;
-  padding: 22px;
-  border-radius: 10px;
-  border: 1px solid #1F242B;
-}
-
-.card h3 {
-  color: #4EA0FF;
-}
-
-/* ===========================================
+/* --------------------------------------------------
    FOOTER
-=========================================== */
+-------------------------------------------------- */
 
-.footer {
-  width: 100%;
-  padding: 24px 0;
-  text-align: center;
-  border-top: 1px solid #1F242B;
-  margin-top: 60px;
-  color: #bbbbbb;
+footer {
+    background: #fafafa;
+    border-top: 1px solid #e0e0e0;
 }
-/* MOBILE POLISH */
+
+footer a {
+    transition: 0.2s;
+}
+
+footer a:hover {
+    color: #000;
+}
+
+/* --------------------------------------------------
+   NAVBAR
+-------------------------------------------------- */
+
+header {
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.nav-link-active {
+    font-weight: 700;
+    color: #000 !important;
+}
+
+/* --------------------------------------------------
+   RESPONSIVE FIXES
+-------------------------------------------------- */
+
 @media (max-width: 768px) {
+    .card {
+        padding: 18px;
+    }
 
-  .nav-links {
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-  }
+    .btn-primary {
+        width: 100%;
+        text-align: center;
+    }
 
-  .hero h1 {
-    font-size: 32px;
-    line-height: 1.2;
-  }
-
-  .container {
-    width: 92%;
-  }
-
-  .grid-2, .grid-3, .grid-4 {
-    grid-template-columns: 1fr !important;
-  }
-
-  .card {
-    padding: 20px;
-  }
+    input,
+    select {
+        width: 100%;
+    }
 }
+
 

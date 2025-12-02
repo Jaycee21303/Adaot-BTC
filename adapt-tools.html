@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AdaptBTC Adapt Tools: DCA tracker, Lightning savings model, Strike integration planner, and custody drills to professionalize Bitcoin operations.">
+    <link rel="canonical" href="https://adaptbtc.com/adapt-tools.html">
     <title>AdaptBTC – Adapt Tools</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -34,11 +36,11 @@
 
 <!-- HERO -->
 <section class="max-w-6xl mx-auto px-6 pt-12 pb-10 space-y-6">
-    <div class="grid lg:grid-cols-2 gap-8 items-center">
-        <div class="space-y-4">
-            <p class="eyebrow">Adapt Tools</p>
-            <h1 class="text-4xl md:text-5xl font-bold leading-tight">Build, launch, and measure your Bitcoin program</h1>
-            <p class="text-lg text-gray-800 leading-7">A practical toolkit for founders, finance teams, and operators. Model costs, plan Lightning rollouts, and keep custody procedures sharp—all from one page.</p>
+        <div class="grid lg:grid-cols-2 gap-8 items-center">
+            <div class="space-y-4">
+                <p class="eyebrow">Adapt Tools</p>
+                <h1 class="text-4xl md:text-5xl font-bold leading-tight">Build, launch, and measure your Bitcoin program</h1>
+                <p class="text-lg text-gray-800 leading-7">A practical toolkit for founders, finance teams, and operators. Model costs, plan Lightning rollouts, and keep custody procedures sharp—all from one page.</p>
             <div class="flex flex-wrap gap-3">
                 <a href="#dca" class="btn-primary">Start with the calculators</a>
                 <a href="consulting.html" class="btn-ghost">Talk to an expert</a>
@@ -51,6 +53,62 @@
                 <li><strong>Merchant-friendly:</strong> Quantify Lightning margins against card networks before buying gear.</li>
                 <li><strong>Audit-ready:</strong> Auto-generate custody and Strike integration steps tailored to your business type.</li>
             </ul>
+        </div>
+    </div>
+</section>
+
+<!-- PROGRAM OVERVIEW -->
+<section class="max-w-6xl mx-auto px-6 pb-8">
+    <div class="card grid lg:grid-cols-3 gap-6 items-start">
+        <div class="space-y-3 lg:col-span-2">
+            <p class="eyebrow">AdaptBTC — public-good infrastructure</p>
+            <h2 class="text-3xl font-bold">Open Bitcoin Safety & Business Onboarding System</h2>
+            <p class="text-gray-800 leading-7">This workspace is part of our open-access stack: standardized curriculum, readiness assessments, and business treasury frameworks anyone can remix. Use it to professionalize your grant applications, investor updates, or internal launch plans.</p>
+
+            <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-800">
+                <div class="p-4 rounded-lg bg-white border border-gray-200">
+                    <p class="font-semibold text-blue-900">Education & safety</p>
+                    <ul class="list-disc list-inside space-y-1 mt-2 leading-6">
+                        <li>Beginner curriculum with printable PDFs and glossary</li>
+                        <li>Self-custody readiness score and universal safety checklist</li>
+                        <li>Recovery, inheritance, and backup templates</li>
+                    </ul>
+                </div>
+                <div class="p-4 rounded-lg bg-white border border-gray-200">
+                    <p class="font-semibold text-emerald-900">Business-grade frameworks</p>
+                    <ul class="list-disc list-inside space-y-1 mt-2 leading-6">
+                        <li>Treasury policy template and allocation calculator</li>
+                        <li>Lightning vendor integration and compliance checklist</li>
+                        <li>Custody and multisig procedures for finance teams</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-5 rounded-xl bg-gradient-to-br from-slate-900 to-slate-700 text-white shadow-lg">
+            <p class="text-sm uppercase tracking-wide text-slate-200">Open-access commitment</p>
+            <p class="mt-2 text-lg leading-7">All AdaptBTC tools, templates, and protocols are published under a permissive license. Download, localize, or embed them in your own community programs—no paywalls.</p>
+            <div class="mt-4 space-y-2 text-sm text-slate-100 leading-6">
+                <p><strong>Impact signals:</strong> curriculum completions, checklist downloads, and number of businesses running the treasury framework.</p>
+                <p><strong>Roadmap:</strong> quarterly releases of the Bitcoin Safety Standard v1.0 with custody, redundancy, and audit requirements.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW TO USE -->
+<section class="max-w-6xl mx-auto px-6 pb-8">
+    <div class="card grid md:grid-cols-2 gap-6">
+        <div class="space-y-3">
+            <p class="eyebrow">How to use these tools</p>
+            <h2 class="text-3xl font-bold">Decision support, not hype</h2>
+            <p class="text-gray-800 leading-7">Each calculator comes with a demo scenario. Load it to see real outputs, then swap in your own numbers. Keep screenshots for grant packets, investor updates, or internal audits.</p>
+        </div>
+        <div class="space-y-2 text-gray-800 text-sm leading-6">
+            <p><strong>DCA tracker:</strong> Enter a recurring buy amount, cadence, and timeframe. Compare projected BTC against your treasury target.</p>
+            <p><strong>Lightning savings:</strong> Model card fees vs Lightning routing and hardware. Use the payback estimate to justify hardware spend.</p>
+            <p><strong>Strike rollout:</strong> Generate a checklist based on business type and settlement preferences. Pair it with your SOPs.</p>
+            <p><strong>Custody drills:</strong> Create a quarterly runbook with backups, travel wallets, and multisig practice steps.</p>
         </div>
     </div>
 </section>
@@ -79,7 +137,10 @@
             <input id="current-btc-price" class="newsletter-input" placeholder="Current BTC Price">
         </div>
 
-        <button onclick="calculateDCA()" class="btn-primary w-full md:w-auto">Calculate</button>
+        <div class="flex flex-col sm:flex-row gap-3">
+            <button onclick="calculateDCA()" class="btn-primary w-full sm:w-auto">Calculate</button>
+            <button onclick="loadDCASample()" class="btn-ghost w-full sm:w-auto">Load demo inputs</button>
+        </div>
 
         <div class="grid md:grid-cols-2 gap-4 text-lg font-semibold">
             <p id="dca-invested" class="text-gray-900"></p>
@@ -105,7 +166,10 @@
             <input id="hardware-cost" class="newsletter-input" placeholder="One-time hardware cost ($)">
         </div>
 
-        <button onclick="calculateLightningSavings()" class="btn-primary w-full md:w-auto">Run savings model</button>
+        <div class="flex flex-col sm:flex-row gap-3">
+            <button onclick="calculateLightningSavings()" class="btn-primary w-full sm:w-auto">Run savings model</button>
+            <button onclick="loadLightningSample()" class="btn-ghost w-full sm:w-auto">Load demo inputs</button>
+        </div>
 
         <div class="grid md:grid-cols-3 gap-4 text-gray-900">
             <div class="p-4 rounded-lg bg-blue-50 border border-blue-100">
@@ -155,7 +219,10 @@
             </select>
         </div>
 
-        <button onclick="buildStrikePlan()" class="btn-primary w-full md:w-auto">Generate checklist</button>
+        <div class="flex flex-col sm:flex-row gap-3">
+            <button onclick="buildStrikePlan()" class="btn-primary w-full sm:w-auto">Generate checklist</button>
+            <button onclick="loadStrikeSample()" class="btn-ghost w-full sm:w-auto">Load demo inputs</button>
+        </div>
 
         <div id="strike-plan" class="grid md:grid-cols-2 gap-4"></div>
     </div>
@@ -190,7 +257,10 @@
             </label>
         </div>
 
-        <button onclick="generateCustodyRunbook()" class="btn-primary w-full md:w-auto">Build runbook</button>
+        <div class="flex flex-col sm:flex-row gap-3">
+            <button onclick="generateCustodyRunbook()" class="btn-primary w-full sm:w-auto">Build runbook</button>
+            <button onclick="loadRunbookSample()" class="btn-ghost w-full sm:w-auto">Load demo inputs</button>
+        </div>
 
         <div id="runbook-output" class="space-y-3 text-gray-800"></div>
     </div>

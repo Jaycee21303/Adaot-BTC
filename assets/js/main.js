@@ -325,3 +325,31 @@ function updateHalvingCountdown() {
 
 setInterval(updateHalvingCountdown, 1000);
 updateHalvingCountdown();
+
+/* ========================================================
+   GLOBAL ACCESSIBILITY & UX HELPERS
+======================================================== */
+
+document.addEventListener('DOMContentLoaded', () => {
+    const existingMain = document.getElementById('main-content');
+    const fallbackMain = document.querySelector('main') || document.querySelector('section');
+    const target = existingMain || fallbackMain;
+
+    if (target && !target.id) {
+        target.id = 'main-content';
+    }
+
+    if (target) {
+        const skipLink = document.createElement('a');
+        skipLink.href = '#main-content';
+        skipLink.textContent = 'Skip to main content';
+        skipLink.className = 'skip-link';
+        document.body.prepend(skipLink);
+    }
+
+    const ticker = document.getElementById('price-ticker');
+    if (ticker) {
+        ticker.setAttribute('role', 'status');
+        ticker.setAttribute('aria-live', 'polite');
+    }
+});

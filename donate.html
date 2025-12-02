@@ -7,15 +7,17 @@
     <link rel="canonical" href="https://adaptbtc.com/donate.html">
     <title>AdaptBTC – Donate with Bitcoin</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com" defer></script>
     <link rel="stylesheet" href="assets/css/global.css">
 </head>
 
 <body class="bg-gray-100 text-gray-900 font-inter">
 
+<a class="skip-link" href="#main-content">Skip to donation form</a>
+
 <!-- NAVBAR -->
 <header class="w-full bg-white shadow-sm">
-    <nav class="max-w-7xl mx-auto flex justify-between items-center py-3 px-6">
+    <nav class="max-w-7xl mx-auto flex justify-between items-center py-3 px-6" role="navigation" aria-label="Primary">
         <div class="flex items-center gap-3">
             <a href="index.html" class="brand-button" aria-label="AdaptBTC home">
                 <span>Adapt</span><span class="brand-text-btc">BTC</span>
@@ -34,7 +36,7 @@
 </header>
 
 <!-- HERO -->
-<section class="max-w-6xl mx-auto px-6 pt-12 pb-6">
+<section class="max-w-6xl mx-auto px-6 pt-12 pb-6" id="main-content">
     <h1 class="text-4xl md:text-5xl font-bold">Donate with Bitcoin</h1>
 
     <p class="mt-5 text-lg max-w-3xl text-gray-700">
@@ -174,31 +176,8 @@
     </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
-<script>
-    (function() {
-        const invoiceText = document.getElementById('invoice-text').textContent.trim();
-        const qrCanvas = document.getElementById('lightning-qr');
-
-        try {
-            new QRious({ element: qrCanvas, value: invoiceText, size: 256, level: 'H' });
-        } catch (e) {
-            console.error('QR generation failed', e);
-        }
-
-        const copyButton = document.getElementById('copy-invoice');
-        copyButton?.addEventListener('click', async () => {
-            try {
-                await navigator.clipboard.writeText(invoiceText);
-                copyButton.textContent = 'Copied!';
-                setTimeout(() => copyButton.textContent = 'Copy', 2500);
-            } catch (err) {
-                copyButton.textContent = 'Copy failed';
-                setTimeout(() => copyButton.textContent = 'Copy', 2500);
-            }
-        });
-    })();
-</script>
+<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js" defer></script>
+<script src="assets/js/donate.js" defer></script>
 
 </body>
 </html>

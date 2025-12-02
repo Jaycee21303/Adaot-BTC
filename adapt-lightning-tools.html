@@ -6,17 +6,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="assets/css/suite.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js" defer></script>
 </head>
 
 <body>
+
+<a class="skip-link" href="#main-content">Skip to Lightning suite</a>
 
 <!-- ===================== SIDEBAR ====================== -->
 
 <aside id="sidebar">
     <h2>AdaptBTC Lightning Suite</h2>
-    <nav>
+    <nav role="navigation" aria-label="Lightning suite sections">
         <a href="#live">⚡ Live Status</a>
         <a href="#charts">📊 Charts</a>
         <a href="#routing">🧭 Routing</a>
@@ -31,14 +33,14 @@
 
 <!-- ===================== MAIN CONTENT ====================== -->
 
-<main id="content">
+<main id="main-content">
 
     <!-- LIVE STATUS -->
     <section id="live">
         <h1>Live Lightning Network Status</h1>
-        <div class="info-container">
-            <span class="info-icon">i</span>
-            <div class="tooltip-box">
+        <div class="info-container" role="group">
+            <button type="button" class="info-icon" aria-label="Lightning status details" aria-expanded="false" data-tooltip-target="tooltip-live">i</button>
+            <div class="tooltip-box" id="tooltip-live" role="tooltip">
                 Real-time Lightning network statistics:<br><br>
                 • Capacity = total BTC locked in channels<br>
                 • Channels = number of active payment paths<br>
@@ -65,9 +67,9 @@
     <section id="charts">
         <h1>Lightning Network Charts</h1>
 
-        <div class="info-container">
-            <span class="info-icon">i</span>
-            <div class="tooltip-box">
+        <div class="info-container" role="group">
+            <button type="button" class="info-icon" aria-label="Chart explanations" aria-expanded="false" data-tooltip-target="tooltip-charts">i</button>
+            <div class="tooltip-box" id="tooltip-charts" role="tooltip">
                 These charts visualize Lightning liquidity and reliability across
                 the global network. Higher capacity and uptime means smoother,
                 faster, more successful payments.
@@ -82,9 +84,9 @@
     <section id="routing">
         <h1>Routing Path Simulator</h1>
 
-        <div class="info-container">
-            <span class="info-icon">i</span>
-            <div class="tooltip-box">
+        <div class="info-container" role="group">
+            <button type="button" class="info-icon" aria-label="Routing simulator help" aria-expanded="false" data-tooltip-target="tooltip-routing">i</button>
+            <div class="tooltip-box" id="tooltip-routing" role="tooltip">
                 Lightning payments travel through multiple nodes before reaching
                 the receiver. This simulator helps visualize how payments hop
                 across the network and where failures may occur.
@@ -99,9 +101,9 @@
     <section id="mapSection">
         <h1>Global Lightning Node Map</h1>
 
-        <div class="info-container">
-            <span class="info-icon">i</span>
-            <div class="tooltip-box">
+        <div class="info-container" role="group">
+            <button type="button" class="info-icon" aria-label="Map usage tips" aria-expanded="false" data-tooltip-target="tooltip-map">i</button>
+            <div class="tooltip-box" id="tooltip-map" role="tooltip">
                 Each marker represents a Lightning node. This map helps users
                 understand how widespread Lightning infrastructure is around
                 the world. More nodes = better connectivity & routing.
@@ -115,9 +117,9 @@
     <section id="operations">
         <h1>Operations Control Tower</h1>
 
-        <div class="info-container">
-            <span class="info-icon">i</span>
-            <div class="tooltip-box">
+        <div class="info-container" role="group">
+            <button type="button" class="info-icon" aria-label="Operations cockpit help" aria-expanded="false" data-tooltip-target="tooltip-ops">i</button>
+            <div class="tooltip-box" id="tooltip-ops" role="tooltip">
                 A board-friendly cockpit summarizing uptime, routing reliability, and liquidity posture for
                 real merchant environments. Data is simulated in-browser for demos and can be wired to your
                 preferred node APIs.
@@ -171,9 +173,9 @@
     <section id="data-room">
         <h1>Data sources & integration ideas</h1>
 
-        <div class="info-container">
-            <span class="info-icon">i</span>
-            <div class="tooltip-box">
+        <div class="info-container" role="group">
+            <button type="button" class="info-icon" aria-label="Integration guidance" aria-expanded="false" data-tooltip-target="tooltip-data">i</button>
+            <div class="tooltip-box" id="tooltip-data" role="tooltip">
                 The suite ships with demo data but is wired for production. Pair it with Prometheus, Amboss, or your preferred
                 wallet/node API to run it as your own observability cockpit.
             </div>
@@ -239,9 +241,9 @@
     <section id="channels">
         <h1>Channel Profitability Calculator</h1>
 
-        <div class="info-container">
-            <span class="info-icon">i</span>
-            <div class="tooltip-box">
+        <div class="info-container" role="group">
+            <button type="button" class="info-icon" aria-label="Channel profitability tips" aria-expanded="false" data-tooltip-target="tooltip-channels">i</button>
+            <div class="tooltip-box" id="tooltip-channels" role="tooltip">
                 Routing nodes earn small fees for forwarding Lightning payments.
                 This calculator estimates potential monthly revenue and ROI
                 based on fee settings and expected traffic.
@@ -263,9 +265,9 @@
     <section id="rollout">
         <h1>Lightning Rollout Planner</h1>
 
-        <div class="info-container">
-            <span class="info-icon">i</span>
-            <div class="tooltip-box">
+        <div class="info-container" role="group">
+            <button type="button" class="info-icon" aria-label="Rollout planner help" aria-expanded="false" data-tooltip-target="tooltip-rollout">i</button>
+            <div class="tooltip-box" id="tooltip-rollout" role="tooltip">
                 Plan capital deployment across multiple venues, estimate channel count, and pick the right
                 liquidity mix before ordering hardware. Outputs are meant for investor memos and vendor RFPs.
             </div>
@@ -317,9 +319,9 @@
     <section id="drills">
         <h1>Drills, Audits, and SLA Guardrails</h1>
 
-        <div class="info-container">
-            <span class="info-icon">i</span>
-            <div class="tooltip-box">
+        <div class="info-container" role="group">
+            <button type="button" class="info-icon" aria-label="Drill instructions" aria-expanded="false" data-tooltip-target="tooltip-drills">i</button>
+            <div class="tooltip-box" id="tooltip-drills" role="tooltip">
                 Tabletop exercises and guardrails for Lightning operations teams. Use them during quarterly audits or when
                 onboarding new staff to keep channel capital safe.
             </div>
@@ -404,7 +406,8 @@
 
 </main>
 
-<script src="assets/js/suite.js"></script>
+<script src="assets/js/tooltips.js" defer></script>
+<script src="assets/js/suite.js" defer></script>
 
 </body>
 </html>

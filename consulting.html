@@ -1,139 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bitcoin Consulting | AdaptBTC</title>
-  <link rel="stylesheet" href="assets/css/global.css" />
-  <script src="assets/js/main.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdaptBTC – Consulting & Strategy</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/global.css">
 </head>
 
-<body>
+<body class="bg-gray-100 text-gray-900 font-inter">
 
 <!-- NAVBAR -->
-<header class="navbar">
-  <div class="nav-logo">AdaptBTC</div>
-  <nav class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="beginner.html">Beginners</a>
-    <a href="consulting.html">Consulting</a>
-    <a href="our-mission.html">Our Mission</a>
-    <a href="get-involved.html">Get Involved</a>
-  </nav>
+<header class="w-full bg-white shadow-sm">
+    <nav class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
+        <div class="flex items-center gap-3">
+            <img src="assets/img/logo/adaptbtc_logo.png" class="h-10 w-auto" alt="AdaptBTC Logo">
+            <span class="text-xl font-bold">Adapt<span class="text-blue-600">BTC</span></span>
+        </div>
+
+        <div class="hidden md:flex gap-8 text-gray-600 text-[15px]">
+            <a href="index.html" class="hover:text-black">Home</a>
+            <a href="beginner.html" class="hover:text-black">Beginner Guide</a>
+            <a href="consulting.html" class="text-black font-semibold">Work With Us</a>
+            <a href="our-mission.html" class="hover:text-black">Our Mission</a>
+            <a href="get-involved.html" class="hover:text-black">Get Involved</a>
+            <a href="donate.html" class="hover:text-black">Donate</a>
+        </div>
+    </nav>
 </header>
 
-<!-- HERO -->
-<section class="hero container">
-  <h1>Bitcoin Consulting</h1>
-  <p>
-    Personalized guidance for individuals, small businesses, creators, and teams  
-    who want to understand Bitcoin clearly and use it safely.
-  </p>
+<!-- HERO SECTION -->
+<section class="max-w-6xl mx-auto px-6 pt-12 pb-6">
+    <h1 class="text-4xl md:text-5xl font-bold">Bitcoin Consulting & Strategic Guidance</h1>
+
+    <p class="mt-5 text-lg max-w-3xl text-gray-700">
+        AdaptBTC helps individuals, small businesses, and teams understand Bitcoin, build 
+        strong long-term strategies, and safely begin their Bitcoin journey.
+        <br><br>
+        We focus on practical implementation — not hype, not trading — just real education, 
+        clarity, and strategic planning.
+    </p>
 </section>
 
-<!-- SECTION 1: Who We Help -->
-<section class="section container">
-  <h2>Who We Help</h2>
+<!-- WHAT WE OFFER -->
+<section class="max-w-6xl mx-auto px-6 py-10">
+    <h2 class="text-3xl font-bold mb-6">What We Can Help With</h2>
 
-  <div class="grid-3">
-    <div class="card">
-      <h3>Individuals</h3>
-      <p>
-        Learn Bitcoin fundamentals, safe storage, long-term strategy,  
-        and how to avoid scams or common mistakes.
-      </p>
-    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-    <div class="card">
-      <h3>Businesses</h3>
-      <p>
-        Treasury strategy, Bitcoin payments, custody solutions,  
-        and operational frameworks for companies of any size.
-      </p>
-    </div>
+        <div class="card">
+            <h3 class="text-xl font-semibold mb-2">Beginner Safety & Setup</h3>
+            <p class="text-gray-700">
+                Learn how to safely buy, store, and protect your Bitcoin. Perfect for beginners.
+            </p>
+        </div>
 
-    <div class="card">
-      <h3>Creators & Entrepreneurs</h3>
-      <p>
-        Bitcoin income, Lightning integration, digital product payments,  
-        and responsible financial practices.
-      </p>
+        <div class="card">
+            <h3 class="text-xl font-semibold mb-2">Long-Term Strategy</h3>
+            <p class="text-gray-700">
+                Understand the halving cycles, DCA strategy, volatility, and long-term thinking.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3 class="text-xl font-semibold mb-2">Self-Custody Guidance</h3>
+            <p class="text-gray-700">
+                Hardware wallets, seed phrases, backups, inheritance planning, and security best practices.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3 class="text-xl font-semibold mb-2">Business Treasury Basics</h3>
+            <p class="text-gray-700">
+                How companies use Bitcoin in treasury management — MicroStrategy style, but simplified.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3 class="text-xl font-semibold mb-2">Bitcoin Education Sessions</h3>
+            <p class="text-gray-700">
+                1-on-1 structured education sessions designed to make you confident and capable quickly.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3 class="text-xl font-semibold mb-2">Custom Q&A and Troubleshooting</h3>
+            <p class="text-gray-700">
+                Bring your questions. Bring your confusion. We'll walk through everything together.
+            </p>
+        </div>
+
     </div>
-  </div>
 </section>
 
-<!-- SECTION 2: What We Teach -->
-<section class="section container">
-  <h2>What You’ll Learn</h2>
-
-  <div class="grid-2">
+<!-- HOW IT WORKS -->
+<section class="max-w-6xl mx-auto px-6 py-10">
     <div class="card">
-      <h3>Bitcoin Fundamentals</h3>
-      <p>
-        We break down Bitcoin in simple terms — how it works,  
-        why it matters, and how it protects purchasing power.
-      </p>
-    </div>
+        <h2 class="text-2xl font-bold mb-4">How Our Consulting Works</h2>
 
-    <div class="card">
-      <h3>Safe Storage & Wallet Setup</h3>
-      <p>
-        Learn the right way to use hot wallets, hardware wallets,  
-        backup your seed phrase, and keep your assets secure.
-      </p>
+        <ul class="space-y-3 text-gray-700">
+            <li>• 100% virtual sessions (video or voice)</li>
+            <li>• No pressure, no upsells, no commitments</li>
+            <li>• You decide the pace — beginner or advanced</li>
+            <li>• Clear, simple explanations without jargon</li>
+            <li>• Focused strictly on safety, strategy, and understanding</li>
+        </ul>
     </div>
-
-    <div class="card">
-      <h3>Buying Bitcoin Responsibly</h3>
-      <p>
-        Step-by-step guidance on where to buy, how much to start with,  
-        and how to withdraw into your own custody.
-      </p>
-    </div>
-
-    <div class="card">
-      <h3>Bitcoin for Business</h3>
-      <p>
-        Should your business hold Bitcoin?  
-        We help with treasury strategy, payment methods,  
-        and regulatory best practices.
-      </p>
-    </div>
-  </div>
 </section>
 
-<!-- SECTION 3: How Sessions Work -->
-<section class="section container">
-  <h2>How Our Sessions Work</h2>
-
-  <div class="card">
-    <p>
-      Our consulting process is simple and designed for clarity:
+<!-- CTA -->
+<section class="max-w-6xl mx-auto px-6 py-16 text-center">
+    <h2 class="text-3xl font-bold">Ready to Get Started?</h2>
+    <p class="text-gray-700 mt-2 mb-6">
+        If you're ready to learn Bitcoin safely and confidently, we're here to help.
     </p>
 
-    <ul>
-      <li>✔ Free introductory call to understand your goals</li>
-      <li>✔ Private 1-on-1 or team sessions via video</li>
-      <li>✔ Customized guidance tailored to your experience level</li>
-      <li>✔ Clear safety practices and step-by-step walkthroughs</li>
-      <li>✔ Follow-up resources and ongoing support if needed</li>
-    </ul>
-  </div>
-</section>
-
-<!-- SECTION 4: CTA -->
-<section class="cta container">
-  <h2>Book a Free Intro Session</h2>
-  <p>
-    We’ll help you understand Bitcoin safely, confidently,  
-    and with a long-term mindset.
-  </p>
-  <a class="btn-primary" href="mailto:adaptbtc@gmail.com">Get Started</a>
+    <a href="mailto:admin@adapt-btc.com" class="btn-primary">Book a Session</a>
 </section>
 
 <!-- FOOTER -->
-<footer class="footer">
-  <p>© 2025 AdaptBTC — Los Angeles, CA</p>
+<footer class="w-full border-t border-gray-300 py-8 text-center text-gray-600">
+    <p>AdaptBTC • Los Angeles, CA</p>
+
+    <div class="mt-3 flex justify-center gap-6 text-sm">
+        <a href="privacy.html" class="hover:text-black">Privacy Policy</a>
+        <a href="terms.html" class="hover:text-black">Terms</a>
+        <a href="https://twitter.com/AdaptBTC" class="hover:text-black">X (Twitter)</a>
+    </div>
 </footer>
 
 </body>

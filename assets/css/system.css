@@ -153,12 +153,12 @@ main {
     font-weight: 700;
     font-size: 20px;
     padding: 10px 14px;
-    background: linear-gradient(145deg, #fdfdfd, #f0f0f0);
-    border: 1px solid var(--atb-gray-light);
+    background: linear-gradient(145deg, #0f162c, #0b1021);
+    border: 1px solid rgba(255,255,255,0.12);
     border-radius: 14px;
-    color: var(--atb-black);
+    color: #f7f9fe;
     text-decoration: none;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.24);
 }
 .atb-logo .atb-logo-btc { color: var(--atb-blue); text-shadow: var(--atb-glow); }
 

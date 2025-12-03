@@ -1,10 +1,11 @@
 header {
-    background: rgba(12, 18, 36, 0.9);
+    background: linear-gradient(120deg, rgba(10, 15, 31, 0.94), rgba(11, 21, 44, 0.94));
     position: sticky;
     top: 0;
     z-index: 10;
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.22);
 }
 
 .navbar {
@@ -15,12 +16,27 @@ header {
 }
 
 .nav-brand {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
     font-weight: 800;
     font-size: 20px;
     letter-spacing: 0.01em;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+}
+
+.logo-word {
+    color: #f7f9fe;
+    text-shadow: 0 0 16px rgba(255, 255, 255, 0.35);
+}
+
+.logo-btc {
+    color: #4da3ff;
+    text-shadow: 0 0 16px rgba(77, 163, 255, 0.45);
 }
 
 .nav-menu {

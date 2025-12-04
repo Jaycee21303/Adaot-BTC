@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get Involved with AdaptBTC</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+</head>
+<body>
+  {% include 'components/header.html' %}
+  <main class="container">
+    <section class="section">
+      <div class="badge">Get Involved</div>
+      <h1>Support AdaptBTC</h1>
+      <p class="tagline">Help us grow the learning and tooling ecosystem for Bitcoin teams.</p>
+    </section>
+    <section class="section grid-two">
+      <div class="card">
+        <h3>Partner with us</h3>
+        <p>Bring AdaptBTC content and lightning utilities to your community or organization.</p>
+      </div>
+      <div class="card">
+        <h3>Contribute resources</h3>
+        <p>Share feedback, curriculum ideas, or integrations that improve the learning portal.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="card">
+        <h3>Stay in touch</h3>
+        <p>We will reach out with ways to collaborate as new phases roll out.</p>
+        <a class="btn" href="{{ url_for('contact') }}">Contact the team</a>
+      </div>
+    </section>
+  </main>
+  {% include 'components/footer.html' %}
+</body>
+</html>

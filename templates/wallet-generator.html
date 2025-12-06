@@ -1,373 +1,531 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AdaptBTC | Advanced Wallet Generator</title>
-
-<!-- Libraries -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bitcoinjs-lib/6.1.0/bitcoinjs-lib.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@bitcoinerlab/secp256k1@1.1.0/dist/secp256k1-umd.min.js"></script>
-<script>
-    bitcoinjs.initEccLib(secp256k1);
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bip39/3.0.4/bip39.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<style>
+  <meta charset="UTF-8" />
+  <title>Simple Bitcoin Wallet Generator</title>
+  <style>
     body {
-        margin: 0;
-        padding: 0;
-        background: #ffffff;
-        font-family: 'Inter', sans-serif;
-        color: #1a1a1a;
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
     }
     .container {
-        max-width: 900px;
-        margin: auto;
-        padding: 40px 20px;
+      max-width: 700px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
-    h1 {
-        font-size: 36px;
-        text-align: center;
-        color: #0047FF;
-        font-weight: 800;
-        margin-bottom: 10px;
-    }
-    p.header-subtitle {
-        text-align: center;
-        font-size: 18px;
-        opacity: 0.8;
-        margin-bottom: 30px;
-    }
-    .warning-banner {
-        background: #fff4e5;
-        border: 1px solid #ffb347;
-        border-radius: 12px;
-        padding: 14px 16px;
-        margin-bottom: 18px;
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
     }
     button {
-        padding: 12px 22px;
-        background: #0047FF;
-        color: white;
-        border: none;
-        border-radius: 40px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.2s;
-        font-weight: 600;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 8px;
     }
     button:hover {
-        transform: scale(1.03);
-        box-shadow: 0px 6px 16px rgba(0, 71, 255, 0.3);
+      background-color: #2980b9;
     }
-    .card {
-        background: #f5f7ff;
-        padding: 22px;
-        border-radius: 16px;
-        box-shadow: 0px 4px 16px rgba(0,0,0,0.1);
-        margin-top: 20px;
+    .field {
+      margin-bottom: 12px;
     }
-    .label {
-        font-size: 16px;
-        font-weight: 700;
-        margin-top: 18px;
-        color: #0047FF;
+    .field label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: bold;
     }
-    .value-box {
-        background: white;
-        padding: 12px;
-        border-radius: 10px;
-        font-size: 15px;
-        border: 1px solid #d9e1ff;
-        word-wrap: break-word;
-        position: relative;
-        min-height: 54px;
+    .field input[type="text"] {
+      width: calc(100% - 90px);
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
-    .copy-btn {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        background: #0047FF;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 12px;
+    .field .copy-btn {
+      margin-left: 8px;
     }
-    #qr {
-        margin-top: 20px;
-        text-align: center;
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
     }
-    select {
-        padding: 10px;
-        border-radius: 10px;
-        border: 1px solid #d9e1ff;
-        width: 100%;
-        margin-top: 5px;
+    #balance {
+      margin-left: 8px;
+      font-weight: bold;
     }
-    #modal-bg {
-        position: fixed;
-        top:0; left:0;
-        width:100%; height:100%;
-        background: rgba(0,0,0,0.6);
-        display:none;
-        justify-content:center;
-        align-items:center;
+    hr {
+      margin: 40px 0;
     }
-    #modal-bg.visible { display: flex; }
-    #modal {
-        background:white;
-        padding:30px;
-        width:90%;
-        max-width:420px;
-        border-radius:15px;
-        text-align:center;
-    }
-    .hidden { display: none; }
-    .info-box {
-        margin-top: 14px;
-        background: #e6f0ff;
-        border-radius: 10px;
-        padding: 12px;
-        border: 1px solid #bad1ff;
-    }
-    .toast {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        padding: 10px 14px;
-        background: #1f2937;
-        color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-        opacity: 0;
-        transform: translateY(10px);
-        transition: opacity 0.2s ease, transform 0.2s ease;
-        z-index: 10;
-    }
-    .toast.show {
-        opacity: 1;
-        transform: translateY(0);
-    }
-</style>
+  </style>
 </head>
-
 <body>
-
-<div id="modal-bg" aria-modal="true" role="dialog">
-    <div id="modal">
-        <h2>⚠️ IMPORTANT</h2>
-        <p>Your 12-word recovery phrase will appear once.<br>
-        If you lose it, the wallet is gone forever.</p>
-        <p class="header-subtitle" style="font-size:14px;">This tool is for education only. Do not reuse generated wallets for real funds.</p>
-        <button id="modalConfirm">I Understand</button>
+  <div class="container">
+    <h1>Simple Bitcoin Wallet Generator</h1>
+    <p>This tool generates a Bitcoin P2PKH address along with its private key and allows you to restore a wallet from a private key. All operations are performed in your browser; no data is sent to any server.</p>
+    <button id="generateBtn">Generate Wallet</button>
+    <div id="walletInfo" style="display:none;">
+      <div class="field">
+        <label for="address">Address</label>
+        <input type="text" id="address" readonly />
+        <button class="copy-btn" onclick="copyField('address')">Copy</button>
+      </div>
+      <div class="field">
+        <label for="privHex">Private Key (hex)</label>
+        <input type="text" id="privHex" readonly />
+        <button class="copy-btn" onclick="copyField('privHex')">Copy</button>
+      </div>
+      <div class="field">
+        <label for="wif">Private Key (WIF)</label>
+        <input type="text" id="wif" readonly />
+        <button class="copy-btn" onclick="copyField('wif')">Copy</button>
+      </div>
+      <div class="field">
+        <label for="pubHex">Public Key (hex)</label>
+        <input type="text" id="pubHex" readonly />
+        <button class="copy-btn" onclick="copyField('pubHex')">Copy</button>
+      </div>
+      <div class="field">
+        <button id="checkBalanceBtn">Check Balance</button>
+        <span id="balance"></span>
+      </div>
     </div>
-</div>
-
-<div class="container">
-
-    <h1>AdaptBTC Advanced Wallet Generator</h1>
-    <p class="header-subtitle">Create, restore, and explore Bitcoin wallets safely. Client-side only — no data leaves this page.</p>
-
-    <div class="warning-banner">
-      <strong>For educational use only.</strong> Use offline hardware for real funds and record your recovery phrase on durable media you control.
+    <hr />
+    <h2>Restore Wallet</h2>
+    <p>Enter a private key in hex or WIF format to derive its address.</p>
+    <textarea id="restoreInput" rows="3"></textarea>
+    <button id="restoreBtn">Restore</button>
+    <div id="restoreInfo" style="display:none;">
+      <div class="field">
+        <label for="restoreAddress">Restored Address</label>
+        <input type="text" id="restoreAddress" readonly />
+      </div>
     </div>
+  </div>
 
-    <button id="generateBtn">Generate New Wallet</button>
+  <script>
+    /*
+     * Minimal secp256k1 implementation extracted from noble-secp256k1.
+     * Only functions required for key generation are included.
+     */
+    (function() {
+      // Constants and helper functions from noble-secp256k1
+      const CURVE = {
+        p: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2fn,
+        n: 0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141n,
+        a: 0n,
+        b: 7n,
+        Gx: 0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798n,
+        Gy: 0x483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8n
+      };
+      const _0n = 0n;
+      const _1n = 1n;
+      const fe = CURVE.p;
+      const mod = (a, b = fe) => {
+        const res = a % b;
+        return res >= _0n ? res : b + res;
+      };
+      // Point on curve in Jacobian coordinates
+      class Point {
+        constructor(x, y, z) {
+          this.x = x;
+          this.y = y;
+          this.z = z;
+        }
+        static fromAffine(x, y) {
+          return new Point(x, y, _1n);
+        }
+        // Point doubling
+        double() {
+          const { x: X1, y: Y1, z: Z1 } = this;
+          const A = mod(X1 * X1);
+          const B = mod(Y1 * Y1);
+          const C = mod(B * B);
+          const D = mod(_2n * ((X1 + B) ** 2n - A - C));
+          const E = mod(_3n * A);
+          const F = mod(E * E);
+          const X3 = mod(F - _2n * D);
+          const Y3 = mod(E * (D - X3) - _8n * C);
+          const Z3 = mod(_2n * Y1 * Z1);
+          return new Point(X3, Y3, Z3);
+        }
+        // Point addition
+        add(other) {
+          const { x: X1, y: Y1, z: Z1 } = this;
+          const { x: X2, y: Y2, z: Z2 } = other;
+          if (X2 === undefined || Y2 === undefined) return this;
+          // algorithm 7.7 Lopez-Dahab projective addition
+          const A = mod((Y2 * Z1) - (Y1 * Z2));
+          const B = mod((X2 * Z1) - (X1 * Z2));
+          if (B === _0n) {
+            if (A === _0n) return this.double();
+            return Point.ZERO;
+          }
+          const B2 = mod(B * B);
+          const C = mod(X1 * B2);
+          const D = mod(X2 * B2);
+          const E = mod(((C + D) % fe) * B);
+          const X3 = mod(A * A - E);
+          const Y3 = mod(A * (C - X3) - Y1 * B2 * B);
+          const Z3 = mod(B * Z1 * Z2);
+          return new Point(X3, Y3, Z3);
+        }
+        multiply(scalar) {
+          let n = scalar;
+          let result = Point.ZERO;
+          let addend = this;
+          while (n > _0n) {
+            if (n & _1n) {
+              result = result.add(addend);
+            }
+            addend = addend.double();
+            n >>= _1n;
+          }
+          return result;
+        }
+        toAffine() {
+          const { x, y, z } = this;
+          const iz = mod(inv(z));
+          const iz2 = mod(iz * iz);
+          const ix = mod(x * iz2);
+          const iy = mod(y * iz2 * iz);
+          return { x: ix, y: iy };
+        }
+      }
+      // constants used in doubling formula
+      const _2n = 2n;
+      const _3n = 3n;
+      const _8n = 8n;
+      // modular inverse
+      function inv(number) {
+        let a = mod(number);
+        let b = fe;
+        let u = 1n;
+        let v = 0n;
+        while (b > 0n) {
+          const t = a / b;
+          [a, b] = [b, a - t * b];
+          [u, v] = [v, u - t * v];
+        }
+        return mod(u);
+      }
+      // Base point
+      const G = Point.fromAffine(CURVE.Gx, CURVE.Gy);
+      // create random private key
+      function randomPrivateKey() {
+          const array = new Uint8Array(32);
+          crypto.getRandomValues(array);
+          // ensure it's within [1, n-1]
+          let priv = BigInt('0x' + Array.from(array).map(b => b.toString(16).padStart(2,'0')).join('')) % CURVE.n;
+          if (priv === 0n) priv = 1n;
+          return priv;
+      }
+      // convert bigint to 32-byte big-endian Uint8Array
+      function bigintToBytes(num) {
+        let hex = num.toString(16).padStart(64, '0');
+        const bytes = new Uint8Array(32);
+        for (let i = 0; i < 32; i++) {
+          bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+        }
+        return bytes;
+      }
+      // compute public key (compressed)
+      function getPublicKey(privKey) {
+        const P = G.multiply(privKey).toAffine();
+        const x = bigintToBytes(P.x);
+        const prefix = (P.y % 2n === 0n) ? 0x02 : 0x03;
+        const pubKey = new Uint8Array(33);
+        pubKey[0] = prefix;
+        pubKey.set(x, 1);
+        return pubKey;
+      }
+      // expose functions to window
+      window.secpUtils = {
+        randomPrivateKey,
+        getPublicKey,
+        bigintToBytes
+      };
+    })();
+  </script>
 
-    <div id="walletCard" class="card hidden">
-
-        <div class="label">Wallet Type</div>
-        <select id="addressType">
-            <option value="p2wpkh">SegWit (bc1…)</option>
-            <option value="p2pkh">Legacy (1…)</option>
-            <option value="p2tr">Taproot (bc1p…)</option>
-        </select>
-
-        <div class="label">12-Word Recovery Phrase</div>
-        <div id="mnemonic" class="value-box">
-            <span id="mnemonicText"></span>
-            <span class="copy-btn" onclick="copyText('mnemonicText')">Copy</span>
-        </div>
-
-        <div class="info-box hidden" id="storageTip">
-          <strong>Store this securely:</strong> write it down, keep it offline, and never share it. Regenerate if anyone else saw the words.
-        </div>
-
-        <div class="label">Bitcoin Address</div>
-        <div id="address" class="value-box">
-            <span id="addressText"></span>
-            <span class="copy-btn" onclick="copyText('addressText')">Copy</span>
-        </div>
-
-        <div id="qr"></div>
-
-        <div class="label">Private Key (WIF)</div>
-        <div id="privateKey" class="value-box">
-            <span id="privateKeyText"></span>
-            <span class="copy-btn" onclick="copyText('privateKeyText')">Copy</span>
-        </div>
-
-        <button id="balanceBtn">Check Wallet Balance</button>
-
-        <div class="label">Balance</div>
-        <div id="balance" class="value-box">Balance not checked yet.</div>
-
-    </div>
-
-    <div id="restoreBox" class="card">
-        <h2>Restore a Wallet</h2>
-        <p class="header-subtitle" style="font-size:14px;">We never send seed phrases to a server. Everything stays in this tab.</p>
-        <textarea id="restoreInput" placeholder="Enter 12-word seed phrase…" style="width:100%; height:80px; border-radius:10px; padding:10px;"></textarea>
-        <button id="restoreBtn">Restore Wallet</button>
-    </div>
-
-</div>
-<div id="toast" role="status" aria-live="polite" class="toast"></div>
-
-<script>
-let currentChild;
-let currentMnemonic;
-let pendingGeneration = false;
-const bitcoin = bitcoinjs;
-
-function showToast(message){
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 1800);
-}
-
-function showModal(){
-    document.getElementById("modal-bg").classList.add('visible');
-    pendingGeneration = true;
-}
-
-function closeModal(){
-    document.getElementById("modal-bg").classList.remove('visible');
-    if(pendingGeneration){
-        pendingGeneration = false;
-        generateWallet();
+  <script>
+    // Base58 encoding
+    const BASE58_ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+    function base58encode(buffer) {
+      let x = BigInt('0x' + Array.from(buffer).map(b => b.toString(16).padStart(2, '0')).join(''));
+      let result = '';
+      while (x > 0n) {
+        const mod = x % 58n;
+        x = x / 58n;
+        result = BASE58_ALPHABET[Number(mod)] + result;
+      }
+      // handle leading zeros
+      for (const b of buffer) {
+        if (b === 0) result = '1' + result;
+        else break;
+      }
+      return result;
     }
-}
 
-function copyText(id){
-    const text = document.getElementById(id).innerText.trim();
-    if(!text){ return; }
-    navigator.clipboard.writeText(text);
-    showToast('Copied to clipboard');
-}
-
-function secureMnemonic(){
-    const entropy = new Uint8Array(16);
-    window.crypto.getRandomValues(entropy);
-    const hex = Array.from(entropy, (b) => b.toString(16).padStart(2, '0')).join('');
-    return bip39.entropyToMnemonic(hex);
-}
-
-async function generateWallet() {
-    currentMnemonic = secureMnemonic();
-    document.getElementById("mnemonicText").innerText = currentMnemonic;
-    await deriveWallet(currentMnemonic);
-    document.getElementById("walletCard").classList.remove('hidden');
-    document.getElementById("storageTip").classList.remove('hidden');
-}
-
-async function deriveWallet(mnemonic){
-    if(!mnemonic){ return; }
-    const seed = await bip39.mnemonicToSeed(mnemonic);
-    const root = bitcoin.bip32.fromSeed(seed);
-
-    const type = document.getElementById("addressType").value;
-    let payment;
-
-    if(type === "p2wpkh"){
-        currentChild = root.derivePath("m/84'/0'/0'/0/0");
-        payment = bitcoin.payments.p2wpkh({
-            pubkey: currentChild.publicKey,
-            network: bitcoin.networks.bitcoin
-        });
+    // Helpers to convert between bytes and hex
+    function bytesToHex(bytes) {
+      return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    function hexToBytes(hex) {
+      if (hex.startsWith('0x')) hex = hex.slice(2);
+      const out = new Uint8Array(hex.length / 2);
+      for (let i = 0; i < out.length; i++) {
+        out[i] = parseInt(hex.substr(i * 2, 2), 16);
+      }
+      return out;
+    }
+    function concatUint8Arrays(...arrs) {
+      const total = arrs.reduce((sum, arr) => sum + arr.length, 0);
+      const out = new Uint8Array(total);
+      let offset = 0;
+      for (const arr of arrs) {
+        out.set(arr, offset);
+        offset += arr.length;
+      }
+      return out;
+    }
+    async function sha256(data) {
+      const buf = await crypto.subtle.digest('SHA-256', data);
+      return new Uint8Array(buf);
+    }
+    // RIPEMD160 implementation (based on the reference algorithm)
+    function ripemd160(message) {
+      const msg = message instanceof Uint8Array ? message : new Uint8Array(message);
+      const r1 = [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+        7, 4, 13, 1, 10, 6, 15, 3, 12, 0, 9, 5, 2, 14, 11, 8,
+        3, 10, 14, 4, 9, 15, 8, 1, 2, 7, 0, 6, 13, 11, 5, 12,
+        1, 9, 11, 10, 0, 8, 12, 4, 13, 3, 7, 15, 14, 5, 6, 2,
+        4, 0, 5, 9, 7, 12, 2, 10, 14, 1, 3, 8, 11, 6, 15, 13
+      ];
+      const r2 = [
+        5, 14, 7, 0, 9, 2, 11, 4, 13, 6, 15, 8, 1, 10, 3, 12,
+        6, 11, 3, 7, 0, 13, 5, 10, 14, 15, 8, 12, 4, 9, 1, 2,
+        15, 5, 1, 3, 7, 14, 6, 9, 11, 8, 12, 2, 10, 0, 4, 13,
+        8, 6, 4, 1, 3, 11, 15, 0, 5, 12, 2, 13, 9, 7, 10, 14,
+        12, 15, 10, 4, 1, 5, 8, 7, 6, 2, 13, 14, 0, 3, 9, 11
+      ];
+      const s1 = [
+        11,14,15,12,5,8,7,9,11,13,14,15,6,7,9,8,
+        7,6,8,13,11,9,7,15,7,12,15,9,11,7,13,12,
+        11,13,6,7,14,9,13,15,14,8,13,6,5,12,7,5,
+        11,12,14,15,14,15,9,8,9,14,5,6,8,6,5,12,
+        9,15,5,11,6,8,13,12,5,12,13,14,11,8,5,6
+      ];
+      const s2 = [
+        8,9,9,11,13,15,15,5,7,7,8,11,14,14,12,6,
+        9,13,15,7,12,8,9,11,7,7,12,7,6,15,13,11,
+        9,7,15,11,8,6,6,14,12,13,5,14,13,13,7,5,
+        15,5,8,11,14,14,6,14,6,9,12,9,12,5,15,8,
+        8,5,12,9,12,5,14,6,8,13,6,5,15,13,11,11
+      ];
+      const K1 = [0x00000000,0x5A827999,0x6ED9EBA1,0x8F1BBCDC,0xA953FD4E];
+      const K2 = [0x50A28BE6,0x5C4DD124,0x6D703EF3,0x7A6D76E9,0x00000000];
+      function f(j,x,y,z) {
+        if (j <= 15) return x ^ y ^ z;
+        if (j <= 31) return (x & y) | (~x & z);
+        if (j <= 47) return (x | ~y) ^ z;
+        if (j <= 63) return (x & z) | (y & ~z);
+        return x ^ (y | ~z);
+      }
+      function rol(x, n) {
+        return ((x << n) | (x >>> (32 - n))) >>> 0;
+      }
+      // pad message
+      const len = msg.length;
+      const bitLen = len * 8;
+      const withPad = ((len + 8) >>> 6 << 6) + 64;
+      const buffer = new Uint8Array(withPad);
+      buffer.set(msg);
+      buffer[len] = 0x80;
+      // append length in little-endian 64 bit
+      const lo = bitLen >>> 0;
+      const hi = Math.floor(bitLen / 0x100000000);
+      buffer[withPad - 8] = lo & 0xff;
+      buffer[withPad - 7] = (lo >>> 8) & 0xff;
+      buffer[withPad - 6] = (lo >>> 16) & 0xff;
+      buffer[withPad - 5] = (lo >>> 24) & 0xff;
+      buffer[withPad - 4] = hi & 0xff;
+      buffer[withPad - 3] = (hi >>> 8) & 0xff;
+      buffer[withPad - 2] = (hi >>> 16) & 0xff;
+      buffer[withPad - 1] = (hi >>> 24) & 0xff;
+      let h0 = 0x67452301;
+      let h1 = 0xefcdab89;
+      let h2 = 0x98badcfe;
+      let h3 = 0x10325476;
+      let h4 = 0xc3d2e1f0;
+      for (let i = 0; i < buffer.length; i += 64) {
+        // copy block into 16 little-end words
+        const X = new Array(16);
+        for (let j = 0; j < 16; j++) {
+          const idx = i + j * 4;
+          X[j] = buffer[idx] | (buffer[idx + 1] << 8) | (buffer[idx + 2] << 16) | (buffer[idx + 3] << 24);
+        }
+        let al = h0, bl = h1, cl = h2, dl = h3, el = h4;
+        let ar = h0, br = h1, cr = h2, dr = h3, er = h4;
+        for (let j = 0; j < 80; j++) {
+          const n = Math.floor(j / 16);
+          let t = (al + f(j, bl, cl, dl) + X[r1[j]] + K1[n]) >>> 0;
+          t = rol(t, s1[j]);
+          t = (t + el) >>> 0;
+          al = el; el = dl; dl = rol(cl, 10); cl = bl; bl = t;
+          let t2 = (ar + f(79 - j, br, cr, dr) + X[r2[j]] + K2[n]) >>> 0;
+          t2 = rol(t2, s2[j]);
+          t2 = (t2 + er) >>> 0;
+          ar = er; er = dr; dr = rol(cr, 10); cr = br; br = t2;
+        }
+        const tmp = (h1 + cl + dr) >>> 0;
+        h1 = (h2 + dl + er) >>> 0;
+        h2 = (h3 + el + ar) >>> 0;
+        h3 = (h4 + al + br) >>> 0;
+        h4 = (h0 + bl + cr) >>> 0;
+        h0 = tmp;
+      }
+      const out = new Uint8Array(20);
+      const h = [h0, h1, h2, h3, h4];
+      for (let i = 0; i < 5; i++) {
+        out[i * 4] = h[i] & 0xff;
+        out[i * 4 + 1] = (h[i] >>> 8) & 0xff;
+        out[i * 4 + 2] = (h[i] >>> 16) & 0xff;
+        out[i * 4 + 3] = (h[i] >>> 24) & 0xff;
+      }
+      return out;
     }
 
-    if(type === "p2pkh"){
-        currentChild = root.derivePath("m/44'/0'/0'/0/0");
-        payment = bitcoin.payments.p2pkh({
-            pubkey: currentChild.publicKey,
-            network: bitcoin.networks.bitcoin
-        });
+    // convert public key to P2PKH address
+    async function pubKeyToAddress(pubKey) {
+      const sha = await sha256(pubKey);
+      const ripe = ripemd160(sha);
+      const payload = new Uint8Array(1 + ripe.length);
+      payload[0] = 0x00; // mainnet prefix
+      payload.set(ripe, 1);
+      const checksumInput = payload;
+      const first = await sha256(checksumInput);
+      const second = await sha256(first);
+      const checksum = second.slice(0, 4);
+      const addressBytes = concatUint8Arrays(payload, checksum);
+      return base58encode(addressBytes);
+    }
+    // convert private key (bigint) to WIF
+    async function toWIF(privKeyBigInt) {
+      const privBytes = window.secpUtils.bigintToBytes(privKeyBigInt);
+      const version = new Uint8Array([0x80]);
+      const suffix = new Uint8Array([0x01]); // compressed
+      const payload = concatUint8Arrays(version, privBytes, suffix);
+      const hash1 = await sha256(payload);
+      const hash2 = await sha256(hash1);
+      const checksum = hash2.slice(0, 4);
+      const full = concatUint8Arrays(payload, checksum);
+      return base58encode(full);
+    }
+    async function wifToPrivBigInt(wif) {
+      // decode base58
+      let num = 0n;
+      for (let i = 0; i < wif.length; i++) {
+        const char = wif[i];
+        const index = BASE58_ALPHABET.indexOf(char);
+        if (index < 0) throw new Error('Invalid Base58 character');
+        num = num * 58n + BigInt(index);
+      }
+      // convert to bytes
+      let hex = num.toString(16);
+      if (hex.length % 2) hex = '0' + hex;
+      let bytes = hexToBytes(hex);
+      // handle leading zero bytes (1 -> 0x00)
+      let leadingZeros = 0;
+      for (const c of wif) {
+        if (c === '1') leadingZeros++;
+        else break;
+      }
+      if (leadingZeros > 0) {
+        const zeros = new Uint8Array(leadingZeros);
+        bytes = concatUint8Arrays(zeros, bytes);
+      }
+      // remove version (first byte) and checksum (last 4) and optional suffix
+      // bytes[0] = version, bytes[bytes.length-4..] = checksum
+      const body = bytes.slice(1, -4);
+      // last byte may be 0x01 for compressed
+      let compressed = false;
+      let keyBytes = body;
+      if (body.length === 33 && body[32] === 0x01) {
+        compressed = true;
+        keyBytes = body.slice(0, 32);
+      }
+      const pkBig = BigInt('0x' + bytesToHex(keyBytes));
+      return pkBig;
     }
 
-    if(type === "p2tr"){
-        currentChild = root.derivePath("m/86'/0'/0'/0/0");
-        payment = bitcoin.payments.p2tr({
-            internalPubkey: currentChild.publicKey.subarray(1,33),
-            network: bitcoin.networks.bitcoin
-        });
-    }
-
-    if(payment?.address){
-        updateUI(payment.address, currentChild.toWIF());
-    }
-}
-
-function updateAddressType(){
-    deriveWallet(currentMnemonic);
-}
-
-function updateUI(address, wif){
-    document.getElementById("addressText").innerText = address;
-    document.getElementById("privateKeyText").innerText = wif;
-
-    let qrDiv = document.getElementById("qr");
-    qrDiv.innerHTML = "";
-    new QRCode(qrDiv, { text: address, width: 170, height: 170 });
-}
-
-async function checkBalance(){
-    const address = document.getElementById("addressText").innerText;
-    if(!address){
-        showToast('Generate a wallet first');
-        return;
-    }
-    const url = `https://blockstream.info/api/address/${address}`;
-
-    document.getElementById("balance").innerText = "Checking…";
-
-    try{
-        const res = await fetch(url);
-        const data = await res.json();
-        const sats = data.chain_stats.funded_txo_sum - data.chain_stats.spent_txo_sum;
-        const btc = sats / 100000000;
-        document.getElementById("balance").innerText = `${btc} BTC (${sats} sats)`;
-    } catch {
-        document.getElementById("balance").innerText = "Error fetching balance.";
-    }
-}
-
-async function restoreWallet(){
-    const seed = document.getElementById("restoreInput").value.trim();
-    if(!bip39.validateMnemonic(seed)){
-        alert("Invalid seed phrase.");
-        return;
-    }
-    currentMnemonic = seed;
-    document.getElementById("mnemonicText").innerText = seed;
-    await deriveWallet(seed);
-    document.getElementById("walletCard").classList.remove('hidden');
-    document.getElementById("storageTip").classList.remove('hidden');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('generateBtn').addEventListener('click', showModal);
-    document.getElementById('modalConfirm').addEventListener('click', closeModal);
-    document.getElementById('addressType').addEventListener('change', updateAddressType);
-    document.getElementById('balanceBtn').addEventListener('click', checkBalance);
-    document.getElementById('restoreBtn').addEventListener('click', restoreWallet);
-});
-</script>
-
+    // Event handlers
+    document.getElementById('generateBtn').addEventListener('click', async () => {
+      const privBig = window.secpUtils.randomPrivateKey();
+      const privBytes = window.secpUtils.bigintToBytes(privBig);
+      const pubKey = window.secpUtils.getPublicKey(privBig);
+      const addr = await pubKeyToAddress(pubKey);
+      const wif = await toWIF(privBig);
+      document.getElementById('address').value = addr;
+      document.getElementById('privHex').value = bytesToHex(privBytes);
+      document.getElementById('wif').value = wif;
+      document.getElementById('pubHex').value = bytesToHex(pubKey);
+      document.getElementById('walletInfo').style.display = '';
+      document.getElementById('balance').textContent = '';
+    });
+    document.getElementById('restoreBtn').addEventListener('click', async () => {
+      const input = document.getElementById('restoreInput').value.trim();
+      if (!input) return;
+      let pkBig;
+      try {
+        if (/^[0-9a-fA-F]{64}$/.test(input) || input.startsWith('0x')) {
+          pkBig = BigInt('0x' + input.replace(/^0x/, ''));
+        } else {
+          pkBig = await wifToPrivBigInt(input);
+        }
+        const pubKey = window.secpUtils.getPublicKey(pkBig);
+        const addr = await pubKeyToAddress(pubKey);
+        document.getElementById('restoreAddress').value = addr;
+        document.getElementById('restoreInfo').style.display = '';
+      } catch (e) {
+        alert('Invalid private key or WIF');
+      }
+    });
+    document.getElementById('checkBalanceBtn').addEventListener('click', async () => {
+      const address = document.getElementById('address').value.trim();
+      if (!address) return;
+      document.getElementById('balance').textContent = '...';
+      try {
+        // Fetch balance from Blockstream API
+        const res = await fetch('https://blockstream.info/api/address/' + address + '/utxo');
+        if (!res.ok) throw new Error('Network error');
+        const utxos = await res.json();
+        let total = 0;
+        for (const u of utxos) {
+          total += u.value;
+        }
+        const btc = (total / 100000000).toFixed(8);
+        document.getElementById('balance').textContent = btc + ' BTC';
+      } catch (e) {
+        document.getElementById('balance').textContent = 'N/A';
+      }
+    });
+    // Copy helper
+    window.copyField = function(id) {
+      const inp = document.getElementById(id);
+      inp.select();
+      document.execCommand('copy');
+    };
+  </script>
 </body>
 </html>

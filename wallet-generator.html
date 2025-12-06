@@ -1,306 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>AdaptBTC | Advanced Wallet Generator</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AdaptBTC Wallet Generator</title>
 
-<!-- Libraries -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bitcoinjs-lib/6.1.0/bitcoinjs-lib.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@bitcoinerlab/secp256k1@1.1.0/dist/secp256k1-umd.min.js"></script>
+<!-- Load correct Bitcoin libraries (must be in this order) -->
+<script src="https://unpkg.com/tiny-secp256k1@2.2.1/dist/tiny-secp256k1.umd.js"></script>
+<script src="https://unpkg.com/bitcoinjs-lib@6.1.5/dist/bitcoinjs-lib.js"></script>
+
 <script>
-    // bitcoinjs-lib v6 requires the secp256k1 implementation to be registered explicitly
-    bitcoinjs.initEccLib(secp256k1);
+    bitcoinjs.initEccLib(tinySecp256k1);
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bip39/3.0.4/bip39.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script src="https://unpkg.com/bip39@3.0.4/dist/index.browser.js"></script>
+<script src="https://unpkg.com/qrious@4.0.2/dist/qrious.min.js"></script>
 
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        background: #ffffff;
-        font-family: 'Inter', sans-serif;
-        color: #1a1a1a;
-    }
-    .container {
-        max-width: 900px;
-        margin: auto;
-        padding: 40px 20px;
-    }
-    h1 {
-        font-size: 36px;
-        text-align: center;
-        color: #0047FF;
-        font-weight: 800;
-        margin-bottom: 10px;
-    }
-    p.header-subtitle {
-        text-align: center;
-        font-size: 18px;
-        opacity: 0.8;
-        margin-bottom: 30px;
-    }
+body {
+  background: #ffffff;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  color: #111;
+}
 
-    button {
-        padding: 12px 22px;
-        background: #0047FF;
-        color: white;
-        border: none;
-        border-radius: 40px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.2s;
-        font-weight: 600;
-    }
-    button:hover {
-        transform: scale(1.03);
-        box-shadow: 0px 6px 16px rgba(0, 71, 255, 0.3);
-    }
+.container {
+  max-width: 700px;
+  margin: auto;
+  padding: 25px;
+  border-radius: 12px;
+  background: white;
+  border: 1px solid #e0e0e0;
+}
 
-    .card {
-        background: #f5f7ff;
-        padding: 22px;
-        border-radius: 16px;
-        box-shadow: 0px 4px 16px rgba(0,0,0,0.1);
-        margin-top: 20px;
-    }
+h1 {
+  text-align: center;
+  color: #0066ff;
+  margin-top: 0;
+}
 
-    .label {
-        font-size: 16px;
-        font-weight: 700;
-        margin-top: 18px;
-        color: #0047FF;
-    }
+.subtitle {
+  text-align: center;
+  color: #555;
+  margin-bottom: 30px;
+}
 
-    .value-box {
-        background: white;
-        padding: 12px;
-        border-radius: 10px;
-        font-size: 15px;
-        border: 1px solid #d9e1ff;
-        word-wrap: break-word;
-        position: relative;
-    }
+.output {
+  padding: 12px;
+  background: #f7f7f7;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  word-break: break-word;
+}
 
-    .copy-btn {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        background: #0047FF;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 12px;
-    }
+button {
+  background: #0066ff;
+  color: white;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
 
-    #qr {
-        margin-top: 20px;
-        text-align: center;
-    }
+button:hover {
+  background: #004ccc;
+}
 
-    #restoreBox {
-        margin-top: 30px;
-        text-align: center;
-    }
+.generate-btn, .restore-btn, .download-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  margin-top: 10px;
+}
 
-    select {
-        padding: 10px;
-        border-radius: 10px;
-        border: 1px solid #d9e1ff;
-        width: 100%;
-        margin-top: 5px;
-    }
-
-    #modal-bg {
-        position: fixed;
-        top:0; left:0;
-        width:100%; height:100%;
-        background: rgba(0,0,0,0.6);
-        display:none;
-        justify-content:center;
-        align-items:center;
-    }
-    #modal {
-        background:white;
-        padding:30px;
-        width:90%;
-        max-width:400px;
-        border-radius:15px;
-        text-align:center;
-    }
+textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  min-height: 70px;
+  resize: none;
+}
 </style>
 </head>
 
 <body>
-
-<div id="modal-bg">
-    <div id="modal">
-        <h2>⚠️ IMPORTANT</h2>
-        <p>Your 12-word recovery phrase will appear once.<br>
-        If you lose it, the wallet is gone forever.</p>
-        <button onclick="closeModal()">I Understand</button>
-    </div>
-</div>
-
 <div class="container">
 
-    <h1>AdaptBTC Advanced Wallet Generator</h1>
-    <p class="header-subtitle">Create, restore, and explore real Bitcoin wallets safely.</p>
+  <h1>AdaptBTC Wallet Generator</h1>
+  <p class="subtitle">Create, restore, and explore Bitcoin wallets safely.</p>
 
-    <button onclick="showModal(); generateWallet()">Generate New Wallet</button>
+  <!-- CREATE NEW WALLET -->
+  <button class="generate-btn" onclick="generateWallet()">Generate New Wallet</button>
 
-    <div id="walletCard" class="card" style="display:none;">
+  <h3>Bitcoin Address</h3>
+  <div class="output" id="address"></div>
+  <button onclick="copyText('address')">Copy</button>
+  <canvas id="qr"></canvas>
 
-        <div class="label">Wallet Type</div>
-        <select id="addressType" onchange="updateAddressType()">
-            <option value="p2wpkh">SegWit (bc1…)</option>
-            <option value="p2pkh">Legacy (1…)</option>
-            <option value="p2tr">Taproot (bc1p…)</option>
-        </select>
+  <h3>12-Word Seed Phrase</h3>
+  <div class="output" id="seed"></div>
+  <button onclick="copyText('seed')">Copy</button>
 
-        <div class="label">12-Word Recovery Phrase</div>
-        <div id="mnemonic" class="value-box">
-            <span id="mnemonicText"></span>
-            <span class="copy-btn" onclick="copyText('mnemonicText')">Copy</span>
-        </div>
+  <h3>Private Key (WIF)</h3>
+  <div class="output" id="private"></div>
+  <button onclick="copyText('private')">Copy</button>
 
-        <div class="label">Bitcoin Address</div>
-        <div id="address" class="value-box">
-            <span id="addressText"></span>
-            <span class="copy-btn" onclick="copyText('addressText')">Copy</span>
-        </div>
+  <button class="download-btn" onclick="downloadBackup()">Download Backup</button>
 
-        <div id="qr"></div>
+  <hr style="margin: 40px 0;">
 
-        <div class="label">Private Key (WIF)</div>
-        <div id="privateKey" class="value-box">
-            <span id="privateKeyText"></span>
-            <span class="copy-btn" onclick="copyText('privateKeyText')">Copy</span>
-        </div>
+  <!-- RESTORE WALLET -->
+  <h2>Restore a Wallet</h2>
 
-        <button onclick="checkBalance()">Check Wallet Balance</button>
+  <textarea id="restoreInput" placeholder="Enter 12-word seed phrase..."></textarea>
+  <button class="restore-btn" onclick="restoreWallet()">Restore Wallet</button>
 
-        <div class="label">Balance</div>
-        <div id="balance" class="value-box">Balance not checked yet.</div>
+  <h3>Restored Address</h3>
+  <div class="output" id="restoredAddress"></div>
 
-    </div>
+  <h3>Restored Private Key</h3>
+  <div class="output" id="restoredPrivate"></div>
 
-    <!-- Restore Wallet Section -->
-    <div id="restoreBox">
-        <h2>Restore a Wallet</h2>
-        <textarea id="restoreInput" placeholder="Enter 12-word seed phrase…" style="width:100%; height:80px; border-radius:10px; padding:10px;"></textarea>
-        <button onclick="restoreWallet()">Restore Wallet</button>
-    </div>
+  <canvas id="qrRestore"></canvas>
 
 </div>
 
 <script>
 
-// ---------------- Modal ----------------
-function showModal(){ document.getElementById("modal-bg").style.display="flex"; }
-function closeModal(){ document.getElementById("modal-bg").style.display="none"; }
-
-// ---------------- Copy Text ----------------
-function copyText(id){
-    navigator.clipboard.writeText(document.getElementById(id).innerText);
-    alert("Copied to clipboard!");
-}
-
-// ---------------- Generate Wallet ----------------
-let currentChild, currentMnemonic;
-
+// CREATE NEW WALLET ---------------------------------------------------
 async function generateWallet() {
+    const seedPhrase = bip39.generateMnemonic(128);
+    const seed = await bip39.mnemonicToSeed(seedPhrase);
+    const hash = bitcoinjs.crypto.sha256(seed);
 
-    currentMnemonic = bip39.generateMnemonic(128);
-    document.getElementById("mnemonicText").innerText = currentMnemonic;
+    const keyPair = bitcoinjs.ECPair.fromPrivateKey(hash);
+    const privateKeyWIF = keyPair.toWIF();
 
-    await deriveWallet(currentMnemonic);
+    const { address } = bitcoinjs.payments.p2pkh({
+        pubkey: keyPair.publicKey
+    });
 
-    document.getElementById("walletCard").style.display = "block";
+    document.getElementById("seed").textContent = seedPhrase;
+    document.getElementById("private").textContent = privateKeyWIF;
+    document.getElementById("address").textContent = address;
+
+    new QRious({
+        element: document.getElementById("qr"),
+        value: address,
+        size: 200
+    });
 }
 
-// ---------------- Derive Wallet By Type ----------------
-async function deriveWallet(mnemonic){
-    const seed = await bip39.mnemonicToSeed(mnemonic);
-    const root = bitcoinjs.bip32.fromSeed(seed);
-
-    const type = document.getElementById("addressType").value;
-
-    let payment;
-
-    if(type === "p2wpkh"){
-        currentChild = root.derivePath("m/84'/0'/0'/0/0");
-        payment = bitcoinjs.payments.p2wpkh({
-            pubkey: currentChild.publicKey,
-            network: bitcoinjs.networks.bitcoin
-        });
-    }
-
-    if(type === "p2pkh"){
-        currentChild = root.derivePath("m/44'/0'/0'/0/0");
-        payment = bitcoinjs.payments.p2pkh({
-            pubkey: currentChild.publicKey,
-            network: bitcoinjs.networks.bitcoin
-        });
-    }
-
-    if(type === "p2tr"){
-        currentChild = root.derivePath("m/86'/0'/0'/0/0");
-        payment = bitcoinjs.payments.p2tr({
-            internalPubkey: currentChild.publicKey.subarray(1,33),
-            network: bitcoinjs.networks.bitcoin
-        });
-    }
-
-    updateUI(payment.address, currentChild.toWIF());
+// COPY TO CLIPBOARD ---------------------------------------------------
+function copyText(id) {
+    navigator.clipboard.writeText(
+        document.getElementById(id).textContent
+    );
 }
 
-// ---------------- Update Address Type ----------------
-async function updateAddressType(){
-    deriveWallet(currentMnemonic);
+// DOWNLOAD BACKUP -----------------------------------------------------
+function downloadBackup() {
+    const data =
+`AdaptBTC Wallet Backup
+======================
+Address: ${address.textContent}
+Seed Phrase: ${seed.textContent}
+Private Key: ${private.textContent}
+
+KEEP THIS FILE SAFE.`;
+
+    const blob = new Blob([data], { type: "text/plain" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "AdaptBTC-Wallet-Backup.txt";
+    a.click();
 }
 
-// ---------------- UI Update ----------------
-function updateUI(address, wif){
-    document.getElementById("addressText").innerText = address;
-    document.getElementById("privateKeyText").innerText = wif;
+// RESTORE WALLET FROM SEED --------------------------------------------
+async function restoreWallet() {
+    let phrase = document.getElementById("restoreInput").value.trim();
 
-    let qrDiv = document.getElementById("qr");
-    qrDiv.innerHTML = "";
-    new QRCode(qrDiv, { text: address, width: 170, height: 170 });
-}
-
-// ---------------- Balance Checker ----------------
-async function checkBalance(){
-    const address = document.getElementById("addressText").innerText;
-    const url = `https://blockstream.info/api/address/${address}`;
-
-    document.getElementById("balance").innerText = "Checking…";
-
-    try{
-        const res = await fetch(url);
-        const data = await res.json();
-        const sats = data.chain_stats.funded_txo_sum - data.chain_stats.spent_txo_sum;
-        const btc = sats / 100000000;
-        document.getElementById("balance").innerText = `${btc} BTC (${sats} sats)`;
-    } catch {
-        document.getElementById("balance").innerText = "Error fetching balance.";
-    }
-}
-
-// ---------------- Restore Wallet ----------------
-async function restoreWallet(){
-    const seed = document.getElementById("restoreInput").value.trim();
-    if(!bip39.validateMnemonic(seed)){
-        alert("Invalid seed phrase.");
+    if (!bip39.validateMnemonic(phrase)) {
+        alert("Invalid seed phrase. Make sure it's 12 words.");
         return;
     }
-    currentMnemonic = seed;
-    document.getElementById("mnemonicText").innerText = seed;
-    await deriveWallet(seed);
-    document.getElementById("walletCard").style.display = "block";
+
+    const seed = await bip39.mnemonicToSeed(phrase);
+    const hash = bitcoinjs.crypto.sha256(seed);
+
+    const keyPair = bitcoinjs.ECPair.fromPrivateKey(hash);
+    const privateKeyWIF = keyPair.toWIF();
+
+    const { address } = bitcoinjs.payments.p2pkh({
+        pubkey: keyPair.publicKey
+    });
+
+    document.getElementById("restoredAddress").textContent = address;
+    document.getElementById("restoredPrivate").textContent = privateKeyWIF;
+
+    new QRious({
+        element: document.getElementById("qrRestore"),
+        value: address,
+        size: 200
+    });
 }
+
 </script>
 
 </body>

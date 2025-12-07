@@ -4,16 +4,26 @@
       <img src="{{ url_for('static', filename='img/adaptbtc-logo.svg') }}" alt="AdaptBTC logo" class="brand-mark" />
       <span class="brand-text">Adapt<span class="accent">BTC</span></span>
     </a>
-    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="nav-links" data-nav-links>
-      <a href="{{ url_for('index') }}">Home</a>
-      <a href="{{ url_for('learning') }}">Learning</a>
-      <a href="{{ url_for('tools') }}">Tools</a>
-      <a href="{{ url_for('consulting') }}">Consulting</a>
-      <a href="{{ url_for('donate') }}">Donate</a>
-      <a class="pill-link" href="{{ url_for('portal.dashboard') }}">Open Learning Portal</a>
+    <div class="nav-right">
+      <div class="btc-ticker" data-btc-ticker aria-live="polite">
+        <div class="ticker-label">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span>BTC</span>
+        </div>
+        <div class="ticker-price" data-btc-price>$—</div>
+        <div class="ticker-change" data-btc-change>Loading…</div>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" data-nav-links>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('learning') }}">Learning</a>
+        <a href="{{ url_for('tools') }}">Tools</a>
+        <a href="{{ url_for('consulting') }}">Consulting</a>
+        <a href="{{ url_for('donate') }}">Donate</a>
+        <a class="pill-link" href="{{ url_for('portal.dashboard') }}">Open Learning Portal</a>
+      </div>
     </div>
   </div>
 </nav>

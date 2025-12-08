@@ -20,6 +20,11 @@
 
   // Starting BTC spot price in USD for projections. Will update from live ticker.
   let startingPrice = 30000;
+  let latestPricePaths = {
+    reserved: [],
+    moderate: [],
+    bullish: [],
+  };
 
   const currentBtcInput = document.getElementById('current-btc');
   const goalBtcInput = document.getElementById('goal-btc');
@@ -101,9 +106,19 @@
               const label = context.dataset.label || '';
               const value = context.parsed.y;
               const isPrice = context.dataset.yAxisID === 'price';
-              return isPrice
-                ? `${label}: $${value.toLocaleString(undefined, { maximumFractionDigits: 0 })}`
-                : `${label}: ${value.toFixed(4)} BTC`;
+              if (isPrice) {
+                return `${label}: $${value.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+              }
+
+              const modeKey = modeInput?.value || 'moderate';
+              const priceSeries = latestPricePaths[modeKey] || [];
+              const priceAtPoint = priceSeries[context.dataIndex];
+              const usdValue = Number.isFinite(priceAtPoint)
+                ? value * priceAtPoint
+                : value * startingPrice;
+              const btcLine = `${label}: ${value.toFixed(4)} BTC`;
+              const usdLine = `≈ ${formatUsd(usdValue)} at ${modeKey.charAt(0).toUpperCase()}${modeKey.slice(1)} price`;
+              return [btcLine, usdLine];
             },
           },
         },
@@ -236,6 +251,7 @@
     chart.data.datasets[1].data = pricePaths.reserved;
     chart.data.datasets[2].data = pricePaths.moderate;
     chart.data.datasets[3].data = pricePaths.bullish;
+    latestPricePaths = pricePaths;
     chart.update();
 
     const timelineText = goalMonths && goalMonths <= months

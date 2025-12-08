@@ -104,6 +104,21 @@
   min-height: 400px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.chart-frame {
+  position: relative;
+  width: 100%;
+  max-width: 980px;
+  height: 480px;
+  flex: 0 0 auto;
+}
+
+#dca-chart {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .chart-note {

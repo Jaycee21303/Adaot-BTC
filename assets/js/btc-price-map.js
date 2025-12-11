@@ -1,7 +1,7 @@
 (function () {
-  const HISTORY_CACHE = new Map();
+  const HISTORY_CACHE = new Map(https://github.com/Jaycee21303/Adapt-BTC/pull/96/conflicts);
   let snapshotCache = null;
-  const API_BASE = '/api/btc';
+  const API_BASE = 'https://api.coingecko.com/api/v3';
 
   const defaultColors = {
     line: '#1b73ff',

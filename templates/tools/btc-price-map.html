@@ -52,6 +52,23 @@
           </div>
           <span id="price-map-status" class="status-text">Loading BTC price data…</span>
         </div>
+        <div class="price-map-controls">
+          <div class="range-buttons" role="tablist" aria-label="BTC chart range">
+            <button class="range-btn is-active" data-days="max">All</button>
+            <button class="range-btn" data-days="3650">10Y</button>
+            <button class="range-btn" data-days="1825">5Y</button>
+            <button class="range-btn" data-days="365">1Y</button>
+            <button class="range-btn" data-days="180">180D</button>
+            <button class="range-btn" data-days="90">90D</button>
+            <button class="range-btn" data-days="30">30D</button>
+            <button class="range-btn" data-days="7">7D</button>
+            <button class="range-btn" data-days="1">1D</button>
+          </div>
+          <div class="control-actions">
+            <button class="btn btn-outline btn-sm" id="price-map-reset">Reset zoom</button>
+            <span class="muted" id="price-map-updated">—</span>
+          </div>
+        </div>
         <div class="chart-wrapper">
           <canvas id="price-map-chart" aria-label="All-time BTC price chart" role="img"></canvas>
         </div>

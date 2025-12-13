@@ -1,6 +1,7 @@
 (function () {
   const HISTORY_CACHE = new Map();
   let snapshotCache = null;
+  const CHART_INSTANCES = new Map();
   const API_BASE = 'https://api.coingecko.com/api/v3';
 
   const defaultColors = {
@@ -25,22 +26,59 @@
     statusEl.classList.toggle('error', Boolean(isError));
   }
 
+  async function fetchJsonWithRetry(url, { retries = 3, timeoutMs = 12000 } = {}) {
+    const retryStatuses = new Set([429, 500, 502, 503, 504]);
+    const baseDelay = 600;
+
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+      try {
+        const response = await fetch(url, {
+          headers: { accept: 'application/json' },
+          signal: controller.signal,
+        });
+
+        if (response.ok) {
+          clearTimeout(timeout);
+          return response.json();
+        }
+
+        if (!retryStatuses.has(response.status) || attempt === retries) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+      } catch (error) {
+        if (error.name !== 'AbortError' && attempt === retries) {
+          throw error;
+        }
+      } finally {
+        clearTimeout(timeout);
+      }
+
+      const delay = baseDelay * Math.pow(2, attempt);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+
+    throw new Error('Failed to fetch JSON');
+  }
+
   async function fetchHistoricalPrices(rangeDays = 'max') {
     if (HISTORY_CACHE.has(rangeDays)) {
       return HISTORY_CACHE.get(rangeDays);
     }
 
-    const response = await fetch(
-      `${API_BASE}/coins/bitcoin/market_chart?vs_currency=usd&days=${rangeDays}`,
-      {
-        headers: {
-          accept: 'application/json',
-        },
-      }
-    );
-    if (!response.ok) throw new Error('Failed to fetch BTC history');
+    const backendUrl = `/api/btc/history?days=${rangeDays}`;
+    const fallbackUrl = `${API_BASE}/coins/bitcoin/market_chart?vs_currency=usd&days=${rangeDays}`;
 
-    const data = await response.json();
+    let data;
+    try {
+      data = await fetchJsonWithRetry(backendUrl);
+    } catch (error) {
+      console.warn('Backend BTC history failed, falling back to CoinGecko', error);
+      data = await fetchJsonWithRetry(fallbackUrl);
+    }
+
     if (!Array.isArray(data?.prices)) throw new Error('Invalid BTC history response');
 
     const parsed = data.prices.map(([timestamp, price]) => ({ x: timestamp, y: price }));
@@ -51,17 +89,17 @@
   async function fetchBtcSnapshot() {
     if (snapshotCache) return snapshotCache;
 
-    const response = await fetch(
-      `${API_BASE}/coins/bitcoin?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false`,
-      {
-        headers: {
-          accept: 'application/json',
-        },
-      }
-    );
-    if (!response.ok) throw new Error('Failed to fetch BTC snapshot');
+    const backendUrl = '/api/btc/snapshot';
+    const fallbackUrl = `${API_BASE}/coins/bitcoin?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false`;
 
-    const data = await response.json();
+    let data;
+    try {
+      data = await fetchJsonWithRetry(backendUrl);
+    } catch (error) {
+      console.warn('Backend BTC snapshot failed, falling back to CoinGecko', error);
+      data = await fetchJsonWithRetry(fallbackUrl);
+    }
+
     const market = data?.market_data || {};
     snapshotCache = {
       price: market.current_price?.usd ?? null,
@@ -187,28 +225,44 @@
     rangeDays = 'max',
     summarySelectors,
     compact = false,
+    updatedLabelId,
   }) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
 
     const statusEl = statusId ? document.getElementById(statusId) : null;
+    const updatedEl = updatedLabelId ? document.getElementById(updatedLabelId) : null;
+
     setStatus(statusEl, 'Loading BTC price data…');
 
+    const destroyExisting = () => {
+      if (CHART_INSTANCES.has(canvasId)) {
+        CHART_INSTANCES.get(canvasId).destroy();
+        CHART_INSTANCES.delete(canvasId);
+      }
+    };
+
     try {
+      destroyExisting();
       const [history, snapshot] = await Promise.all([
         fetchHistoricalPrices(rangeDays),
         fetchBtcSnapshot(),
       ]);
 
       applySummary(snapshot, summarySelectors);
-      buildChart(canvas, history, { compact });
+      const chart = buildChart(canvas, history, { compact });
+      if (chart) CHART_INSTANCES.set(canvasId, chart);
+
       const updatedLabel = snapshot?.lastUpdated
         ? `Updated ${snapshot.lastUpdated.toLocaleString()}`
         : 'Live market data';
       setStatus(statusEl, updatedLabel);
+      if (updatedEl) updatedEl.textContent = updatedLabel;
     } catch (error) {
       console.error('BTC price map error', error);
+      destroyExisting();
       setStatus(statusEl, 'Unable to load BTC chart right now. Please try again later.', true);
+      if (updatedEl) updatedEl.textContent = '—';
     }
   }
 
@@ -222,17 +276,44 @@
   document.addEventListener('DOMContentLoaded', () => {
     registerZoomPlugin();
 
-    initBtcPriceChart({
-      canvasId: 'price-map-chart',
-      statusId: 'price-map-status',
-      rangeDays: 'max',
-      compact: false,
-      summarySelectors: {
-        priceElId: 'price-map-current',
-        changeElId: 'price-map-change',
-        athElId: 'price-map-ath',
-      },
+    const mainRangeButtons = document.querySelectorAll('.range-btn');
+    let activeRange = 'max';
+
+    const handleRangeChange = (rangeDays, targetButton) => {
+      activeRange = rangeDays;
+      mainRangeButtons.forEach((btn) => btn.classList.toggle('is-active', btn === targetButton));
+      initBtcPriceChart({
+        canvasId: 'price-map-chart',
+        statusId: 'price-map-status',
+        rangeDays,
+        compact: false,
+        updatedLabelId: 'price-map-updated',
+        summarySelectors: {
+          priceElId: 'price-map-current',
+          changeElId: 'price-map-change',
+          athElId: 'price-map-ath',
+        },
+      });
+    };
+
+    mainRangeButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const rangeDays = button.getAttribute('data-days');
+        handleRangeChange(rangeDays, button);
+      });
     });
+
+    const resetButton = document.getElementById('price-map-reset');
+    if (resetButton) {
+      resetButton.addEventListener('click', () => {
+        const chart = CHART_INSTANCES.get('price-map-chart');
+        if (chart?.resetZoom) chart.resetZoom();
+      });
+    }
+
+    if (mainRangeButtons.length) {
+      handleRangeChange(activeRange, mainRangeButtons[0]);
+    }
 
     initBtcPriceChart({
       canvasId: 'price-map-preview',

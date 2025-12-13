@@ -1,5 +1,5 @@
 (function () {
-  const HISTORY_CACHE = new Map(https://github.com/Jaycee21303/Adapt-BTC/pull/96/conflicts);
+  const HISTORY_CACHE = new Map();
   let snapshotCache = null;
   const API_BASE = 'https://api.coingecko.com/api/v3';
 
@@ -30,7 +30,14 @@
       return HISTORY_CACHE.get(rangeDays);
     }
 
-    const response = await fetch(`${API_BASE}/history?days=${rangeDays}`);
+    const response = await fetch(
+      `${API_BASE}/coins/bitcoin/market_chart?vs_currency=usd&days=${rangeDays}`,
+      {
+        headers: {
+          accept: 'application/json',
+        },
+      }
+    );
     if (!response.ok) throw new Error('Failed to fetch BTC history');
 
     const data = await response.json();
@@ -44,7 +51,14 @@
   async function fetchBtcSnapshot() {
     if (snapshotCache) return snapshotCache;
 
-    const response = await fetch(`${API_BASE}/snapshot`);
+    const response = await fetch(
+      `${API_BASE}/coins/bitcoin?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false`,
+      {
+        headers: {
+          accept: 'application/json',
+        },
+      }
+    );
     if (!response.ok) throw new Error('Failed to fetch BTC snapshot');
 
     const data = await response.json();

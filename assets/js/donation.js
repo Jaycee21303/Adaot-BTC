@@ -1,5 +1,4 @@
 const btcAddress = "bc1qruzxu9vdh7wlh5hnzsufcw8rxt9k6eamel6wmw";
-const lightningAddress = "adaptbtcdonate@strike.me";
 
 function renderQr() {
   const qrTarget = document.getElementById("btcQR");
@@ -80,11 +79,6 @@ function bootDonationPage() {
     buttonId: "copy-btc",
     text: btcAddress,
     hintId: "btc-copy-hint",
-  });
-  attachCopy({
-    buttonId: "copy-lightning",
-    text: lightningAddress,
-    hintId: "lightning-copy-hint",
   });
 
   checkMempool();
